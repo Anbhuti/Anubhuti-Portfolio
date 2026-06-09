@@ -1,0 +1,426 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+
+  /* Color Palette - Modern Data Analyst Theme */
+  --bg-base: #060813;
+  --bg-surface: rgba(13, 17, 34, 0.7);
+  --bg-surface-hover: rgba(22, 29, 58, 0.8);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-glow: rgba(0, 242, 254, 0.25);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --color-cyan: #00F2FE;
+  --color-blue: #4FACFE;
+  --color-purple: #7F00FF;
+
+  /* Gradients */
+  --grad-primary: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-blue) 50%, var(--color-purple) 100%);
+  --grad-dark-surface: linear-gradient(180deg, rgba(13, 17, 34, 0.5) 0%, rgba(6, 8, 19, 0.95) 100%);
+  --grad-text: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  --grad-glow: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(127, 0, 255, 0.15) 100%);
+}
+
+/* Reset & Scrollbar */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 254, 0.4);
+}
+
+::selection {
+  background: rgba(0, 242, 254, 0.3);
+  color: #fff;
+}
+
+/* Headings & Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.glass-panel:hover {
+  border-color: var(--border-color-glow);
+  box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.15),
+              0 1px 1px 0 rgba(0, 242, 254, 0.1) inset;
+  background: var(--bg-surface-hover);
+}
+
+/* Text Gradients */
+.text-grad-primary {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-grad-silver {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Dot grid overlay for visual depth */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom Keyframe Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.6)); }
+}
+
+.float-anim {
+  animation: float 6s ease-in-out infinite;
+}
+
+.spin-slow-anim {
+  animation: spin-slow 25s linear infinite;
+}
+
+.pulse-glow-anim {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Project Stacking Cards Helper */
+.project-stack-card {
+  box-shadow: 0 -20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Layout helpers */
+.container-max {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .kpi-divider {
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 1px solid var(--border-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 16px 0;
+  }
+  .kpi-divider-right {
+    border-left: none !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding-top: 16px;
+  }
+}
+
+/* 3D Holographic & Futuristic UI Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.holo-card-container {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+}
+
+.holo-card-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.2) 0%, rgba(127, 0, 255, 0.1) 40%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+.holo-reflection {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%, rgba(0, 242, 254, 0.05) 100%);
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: overlay;
+  transition: opacity 0.3s ease;
+}
+
+.holo-scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 242, 254, 0.08) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.45;
+}
+
+.holo-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.light-flare {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.4) 0%, transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.holo-card-container:hover .light-flare {
+  opacity: 0.6;
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.4), 0 0 20px rgba(0, 242, 254, 0.2);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.6), 0 0 20px rgba(0, 242, 254, 0.3);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 8px rgba(127, 0, 255, 0.6), 0 0 20px rgba(127, 0, 255, 0.3);
+}
+
+.video-blend-mode {
+  mix-blend-mode: lighten; /* blend black borders with background */
+  filter: contrast(1.1) brightness(1.05);
+}
+
+/* Premium Themed Tech Badges (Square design inspired by Adobe reference style but for Data/AI) */
+.tech-badge-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.tech-square-badge {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.tech-square-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.tech-square-badge.py {
+  background: #1e293b;
+  border: 2px solid #3776ab;
+  color: #3776ab;
+  box-shadow: 0 0 15px rgba(55, 118, 171, 0.25);
+}
+.tech-square-badge.py:hover {
+  background: #3776ab;
+  color: #fff;
+  box-shadow: 0 0 25px rgba(55, 118, 171, 0.6);
+  transform: translateY(-4px);
+}
+
+.tech-square-badge.sql {
+  background: #1e293b;
+  border: 2px solid var(--color-purple);
+  color: var(--color-purple);
+  box-shadow: 0 0 15px rgba(127, 0, 255, 0.25);
+}
+.tech-square-badge.sql:hover {
+  background: var(--color-purple);
+  color: #fff;
+  box-shadow: 0 0 25px rgba(127, 0, 255, 0.6);
+  transform: translateY(-4px);
+}
+
+.tech-square-badge.bi {
+  background: #1e293b;
+  border: 2px solid #f2c811;
+  color: #f2c811;
+  box-shadow: 0 0 15px rgba(242, 200, 17, 0.25);
+}
+.tech-square-badge.bi:hover {
+  background: #f2c811;
+  color: #060813;
+  box-shadow: 0 0 25px rgba(242, 200, 17, 0.6);
+  transform: translateY(-4px);
+}
+
+.tech-square-badge.ai {
+  background: #1e293b;
+  border: 2px solid var(--color-cyan);
+  color: var(--color-cyan);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+}
+.tech-square-badge.ai:hover {
+  background: var(--color-cyan);
+  color: #060813;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+  transform: translateY(-4px);
+}
+
+.tech-badge-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Floating analytics panels and glassmorphism cards */
+.floating-glass-panel {
+  background: rgba(10, 15, 30, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: absolute;
+  z-index: 10;
+}
+
+.floating-glass-panel:hover {
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 12px 45px rgba(0, 242, 254, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+.sql-console {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #38bdf8;
+  text-align: left;
+}
+
+.sql-keyword {
+  color: var(--color-purple);
+  font-weight: bold;
+}
+
+.sql-string {
+  color: var(--color-cyan);
+}
+
+/* Animations for data waves / streams */
+@keyframes data-pulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50% { transform: scaleY(1.5); opacity: 0.9; }
+}
+
+.data-bar {
+  width: 3px;
+  background: var(--color-cyan);
+  border-radius: 2px;
+  display: inline-block;
+  animation: data-pulse 1.5s ease-in-out infinite;
+}
+
+.cert-card {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-cyan) !important;
+  box-shadow: 0 10px 25px rgba(0, 242, 254, 0.15);
+}
+
+
+

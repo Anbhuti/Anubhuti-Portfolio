@@ -1,0 +1,1952 @@
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import {
+  Database,
+  BarChart3,
+  TrendingUp,
+  Cpu,
+  Award,
+  GraduationCap,
+  Mail,
+  ExternalLink,
+  MapPin,
+  Download,
+  Terminal,
+  Play,
+  Coffee,
+  ArrowRight,
+  Check,
+  ChevronRight,
+  Sparkles,
+  Search,
+  BookOpen,
+  Phone,
+  Settings
+} from "lucide-react";
+
+// Custom brand icons (since Lucide v0.400+ removed brand icons)
+const Github = (props) => (
+  <svg viewBox="0 0 24 24" width={props.size || 24} height={props.size || 24} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const Linkedin = (props) => (
+  <svg viewBox="0 0 24 24" width={props.size || 24} height={props.size || 24} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const Youtube = (props) => (
+  <svg viewBox="0 0 24 24" width={props.size || 24} height={props.size || 24} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z" />
+    <polygon points="10 15 15 12 10 9" />
+  </svg>
+);
+
+/* ── Interactive Particle Background (Neural Net / Connection Field) ── */
+function CanvasBackground() {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: null, y: null, radius: 150 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    const particles = [];
+    const particleCount = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000));
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1;
+        this.baseColor = Math.random() > 0.5 ? "#00F2FE" : "#7F00FF";
+      }
+
+      update(width, height) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+        // Mouse interaction (repulsion)
+        if (mouseRef.current.x !== null) {
+          const dx = this.x - mouseRef.current.x;
+          const dy = this.y - mouseRef.current.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouseRef.current.radius) {
+            const force = (mouseRef.current.radius - distance) / mouseRef.current.radius;
+            const angle = Math.atan2(dy, dx);
+            this.x += Math.cos(angle) * force * 2;
+            this.y += Math.sin(angle) * force * 2;
+          }
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.baseColor;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = this.baseColor;
+        ctx.fill();
+        ctx.shadowBlur = 0; // reset
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    const handleMouseMove = (e) => {
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.x = null;
+      mouseRef.current.y = null;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+
+    const animateCanvas = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p) => {
+        p.update(canvas.width, canvas.height);
+        p.draw();
+      });
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            const alpha = (120 - dist) / 120 * 0.15;
+            ctx.strokeStyle = `rgba(79, 172, 254, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animateCanvas);
+    };
+
+    animateCanvas();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", pointerEvents: "none", zIndex: 1 }} />;
+}
+
+/* ── Magnet Effect Component ── */
+function Magnet({ children, padding = 120, strength = 4, activeTransition = "transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)", inactiveTransition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)" }) {
+  const ref = useRef(null);
+  const [style, setStyle] = useState({ transform: "translate3d(0,0,0)", transition: inactiveTransition });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const onMouseMove = (e) => {
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const threshold = Math.max(rect.width, rect.height) / 2 + padding;
+
+      if (dist < threshold) {
+        setStyle({
+          transform: `translate3d(${dx / strength}px, ${dy / strength}px, 0)`,
+          transition: activeTransition,
+        });
+      } else {
+        setStyle({
+          transform: "translate3d(0,0,0)",
+          transition: inactiveTransition,
+        });
+      }
+    };
+
+    const onMouseLeave = () => {
+      setStyle({
+        transform: "translate3d(0,0,0)",
+        transition: inactiveTransition,
+      });
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    el.addEventListener("mouseleave", onMouseLeave);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      el.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, [padding, strength, activeTransition, inactiveTransition]);
+
+  return (
+    <div ref={ref} style={{ ...style, display: "inline-block" }}>
+      {children}
+    </div>
+  );
+}
+
+/* ── FadeIn Container ── */
+function FadeIn({ children, delay = 0, duration = 0.6, x = 0, y = 20, className = "", style = {} }) {
+  return (
+    <motion.div
+      className={className}
+      style={style}
+      initial={{ opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ── Char-By-Char Animated Scroll Text ── */
+function AnimatedText({ text, className = "", style = {} }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "end 0.25"]
+  });
+
+  const words = useMemo(() => text.split(" "), [text]);
+
+  return (
+    <span ref={ref} className={className} style={{ display: "inline-block", position: "relative", ...style }}>
+      {words.map((word, wordIndex) => {
+        const start = wordIndex / words.length;
+        const end = (wordIndex + 1) / words.length;
+        return (
+          <Word key={wordIndex} word={word} start={start} end={end} progress={scrollYProgress} isLast={wordIndex === words.length - 1} />
+        );
+      })}
+    </span>
+  );
+}
+
+function Word({ word, start, end, progress, isLast }) {
+  const opacity = useTransform(progress, [start, end], [0.15, 1]);
+  return (
+    <motion.span style={{ opacity, display: "inline-block", marginRight: isLast ? 0 : "0.25em" }}>
+      {word}
+    </motion.span>
+  );
+}
+
+/* ── Floating Card Component ── */
+function FloatingCard({ children, delay = 0, style = {} }) {
+  return (
+    <motion.div
+      initial={{ y: 0 }}
+      animate={{ y: [-8, 8, -8] }}
+      transition={{
+        duration: 5,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay
+      }}
+      style={{
+        background: "rgba(10, 15, 30, 0.65)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        borderRadius: "16px",
+        padding: "12px 18px",
+        boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        position: "absolute",
+        zIndex: 5,
+        pointerEvents: "none",
+        ...style
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ── KPI Counter Component ── */
+function KpiCounter({ value, duration = 1.5, suffix = "" }) {
+  const [count, setCount] = useState(0);
+  const elementRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let start = 0;
+          const end = parseInt(value.replace(/[^0-9]/g, ""), 10);
+          if (isNaN(end)) return;
+          const totalTicks = 60;
+          const step = end / totalTicks;
+          let tick = 0;
+
+          const timer = setInterval(() => {
+            tick++;
+            start = Math.floor(step * tick);
+            if (tick >= totalTicks) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(start);
+            }
+          }, (duration * 1000) / totalTicks);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = elementRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [value, duration, hasAnimated]);
+
+  const formattedCount = count.toLocaleString();
+
+  return (
+    <span ref={elementRef}>
+      {formattedCount}
+      {suffix}
+    </span>
+  );
+}
+
+
+
+/* ── Interactive Abstract Data Sphere (Hero Graphics) ── */
+function DataSphere() {
+  return (
+    <div style={{ position: "relative", width: "clamp(260px, 32vw, 420px)", height: "clamp(260px, 32vw, 420px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {/* Outer Glow Ring */}
+      <div
+        className="spin-slow-anim"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          borderRadius: "50%",
+          border: "1px dashed rgba(0, 242, 254, 0.4)",
+          boxShadow: "0 0 40px rgba(0, 242, 254, 0.05), inset 0 0 40px rgba(0, 242, 254, 0.05)",
+        }}
+      />
+
+      {/* Middle Counter-rotating Ring */}
+      <div
+        className="pulse-glow-anim"
+        style={{
+          position: "absolute",
+          width: "82%",
+          height: "82%",
+          borderRadius: "50%",
+          border: "2px solid transparent",
+          borderTopColor: "var(--color-blue)",
+          borderBottomColor: "var(--color-purple)",
+          animation: "spin-slow 15s linear infinite reverse",
+        }}
+      />
+
+      {/* Inner Tech Core */}
+      <div
+        style={{
+          position: "absolute",
+          width: "55%",
+          height: "55%",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(127,0,255,0.2) 0%, rgba(6,8,19,0.9) 80%)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "0 0 30px rgba(127, 0, 255, 0.2)",
+        }}
+      >
+        <Database size={36} className="pulse-glow-anim" style={{ color: "var(--color-cyan)", marginBottom: "6px" }} />
+        <span style={{ fontSize: "0.65rem", letterSpacing: "0.2em", color: "var(--text-secondary)", textTransform: "uppercase", fontWeight: 700 }}>AI Core</span>
+        <span style={{ fontSize: "0.55rem", color: "var(--text-muted)", fontFamily: "monospace" }}>STATUS: ACTIVE</span>
+      </div>
+
+      {/* Orbits / Data Points */}
+      {[...Array(6)].map((_, i) => {
+        const angle = (i * 360) / 6;
+        const radius = "46%";
+        return (
+          <motion.div
+            key={i}
+            className="pulse-glow-anim"
+            style={{
+              position: "absolute",
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: i % 2 === 0 ? "var(--color-cyan)" : "var(--color-purple)",
+              left: "50%",
+              top: "50%",
+              marginLeft: "-4px",
+              marginTop: "-4px",
+              transform: `rotate(${angle}deg) translate(${radius})`,
+            }}
+            animate={{
+              scale: [1, 1.4, 1],
+            }}
+            transition={{
+              duration: 2 + i * 0.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Project Card Stacking Item ── */
+function ProjectCard({ project, index, total, scrollRef }) {
+  const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["start start", "end end"] });
+
+  // Calculate stack variables
+  const targetScale = 1 - (total - 1 - index) * 0.035;
+  const inputStart = index / total;
+  const inputEnd = (index + 1) / total;
+  const scale = useTransform(scrollYProgress, [inputStart, inputEnd], [1, targetScale]);
+
+  return (
+    <div style={{ height: "90vh", display: "flex", alignItems: "flex-start", justifyContent: "center", position: "sticky", top: "80px", zIndex: 10 + index }}>
+      <motion.div
+        style={{
+          scale,
+          borderRadius: "24px",
+          border: "1px solid var(--border-color)",
+          background: "var(--bg-surface)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          padding: "clamp(20px, 3vw, 40px)",
+          width: "100%",
+          maxWidth: "1100px",
+          transformOrigin: "top center",
+        }}
+        className="project-stack-card"
+      >
+        {/* Card Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "6px" }}>
+              <span style={{ fontSize: "0.8rem", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700, color: "var(--color-cyan)", border: "1px solid rgba(0, 242, 254, 0.3)", borderRadius: "99px", padding: "2px 10px" }}>
+                {project.type}
+              </span>
+              <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>{project.num}</span>
+            </div>
+            <h3 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.2rem)", fontWeight: 800, color: "#fff", lineHeight: 1.1 }}>{project.name}</h3>
+          </div>
+
+          <div style={{ display: "flex", gap: "12px" }}>
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px", borderRadius: "9999px", background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)",
+                  color: "#fff", padding: "10px 20px", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer", transition: "all 0.3s"
+                }}
+                className="hover-glow"
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--color-cyan)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border-color)"; }}
+              >
+                <Github size={16} />
+                <span>GitHub Repo</span>
+              </a>
+            )}
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px", borderRadius: "9999px", background: "var(--grad-primary)",
+                  color: "#fff", padding: "10px 24px", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s"
+                }}
+              >
+                <span>Live View</span>
+                <ExternalLink size={16} />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Tech Stack tags */}
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "24px" }}>
+          {project.tech.map((t, idx) => (
+            <span key={idx} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "8px", padding: "4px 12px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* Card Body */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "24px", textAlign: "left" }}>
+          {/* Main Info */}
+          <div>
+            <p style={{ color: "var(--text-secondary)", marginBottom: "20px", fontSize: "clamp(0.95rem, 1.2vw, 1.1rem)", lineHeight: 1.5 }}>
+              {project.desc}
+            </p>
+            <h4 style={{ fontSize: "0.9rem", color: "#fff", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px", fontWeight: 700 }}>Key Project Deliverables</h4>
+            <ul style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "10px", listStyle: "none" }}>
+              {project.highlights.map((h, idx) => (
+                <li key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                  <span style={{ color: "var(--color-cyan)", marginTop: "2px" }}><Check size={14} /></span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Skills Rotator (Rotating text effect) ── */
+function SkillsRotator() {
+  const skills = [
+    "Problem Solving",
+    "Critical Thinking",
+    "Data Visualization",
+    "Statistical Analysis",
+    "Insight Generation"
+  ];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % skills.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [skills.length]);
+
+  return (
+    <div style={{ height: "clamp(48px, 6vw, 72px)", overflow: "hidden", display: "flex", alignItems: "center", margin: "16px 0 28px 0" }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          initial={{ y: 25, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -25, opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          style={{
+            fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
+            fontWeight: 800,
+            color: "var(--color-cyan)",
+            textShadow: "0 0 15px rgba(0, 242, 254, 0.4)",
+            fontFamily: "var(--font-heading)"
+          }}
+        >
+          {skills[index]}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ── Introduction Video Showcase ── */
+function IntroVideo() {
+  const videoRef = useRef(null);
+  const containerRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
+  const [showReplay, setShowReplay] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPlayedOnce) {
+          const video = videoRef.current;
+          if (video) {
+            video.muted = false; // Maintain audio
+            video.play()
+              .then(() => {
+                setIsPlaying(true);
+                setHasPlayedOnce(true);
+              })
+              .catch((err) => {
+                console.log("Autoplay unmuted blocked, falling back to muted:", err);
+                video.muted = true;
+                video.play()
+                  .then(() => {
+                    setIsPlaying(true);
+                    setHasPlayedOnce(true);
+                  })
+                  .catch(e => console.error("Autoplay failed:", e));
+              });
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    const container = containerRef.current;
+    if (container) {
+      observer.observe(container);
+    }
+
+    return () => {
+      if (container) observer.unobserve(container);
+    };
+  }, [hasPlayedOnce]);
+
+  const handleVideoEnded = () => {
+    setIsPlaying(false);
+    setShowReplay(true);
+  };
+
+  const handleReplay = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      video.muted = false; // Ensure audio on manual replay
+      video.play()
+        .then(() => {
+          setIsPlaying(true);
+          setShowReplay(false);
+        })
+        .catch(e => console.error("Replay failed:", e));
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: "520px",
+        margin: "0 auto",
+        perspective: "1000px"
+      }}
+    >
+      {/* Outer Glow */}
+      <div
+        style={{
+          position: "absolute",
+          inset: "-12px",
+          background: "radial-gradient(circle, rgba(79, 172, 254, 0.25) 0%, rgba(127, 0, 255, 0.2) 100%)",
+          filter: "blur(30px)",
+          borderRadius: "32px",
+          zIndex: 0,
+          pointerEvents: "none"
+        }}
+      />
+
+      <motion.div
+        whileHover={{ scale: 1.02, rotateX: 2, rotateY: -2 }}
+        animate={{ y: [-4, 4, -4] }}
+        transition={{
+          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+          scale: { duration: 0.4 },
+          rotateX: { duration: 0.4 },
+          rotateY: { duration: 0.4 }
+        }}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          borderRadius: "24px",
+          border: "2px solid rgba(79, 172, 254, 0.35)",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(127, 0, 255, 0.2)",
+          background: "rgba(10, 15, 30, 0.55)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          overflow: "hidden",
+          aspectRatio: "16/9",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <video
+          ref={videoRef}
+          src="/intro-video.mp4"
+          playsInline
+          onEnded={handleVideoEnded}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block"
+          }}
+        />
+
+        {/* Overlay showing Replay Button */}
+        <AnimatePresence>
+          {showReplay && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "rgba(3, 5, 12, 0.8)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                zIndex: 5
+              }}
+            >
+              <button
+                onClick={handleReplay}
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "50%",
+                  background: "var(--grad-primary)",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  boxShadow: "0 0 35px rgba(0, 242, 254, 0.6)",
+                  transition: "transform 0.2s"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
+                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+              >
+                <Play size={24} fill="#fff" style={{ color: "#fff", marginLeft: "3px" }} />
+              </button>
+              <span style={{ fontSize: "0.85rem", color: "#fff", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Replay Video</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── MAIN PORTFOLIO COMPONENT ── */
+export default function App() {
+  const [activeSection, setActiveSection] = useState("hero");
+  // Fullscreen introduction state
+  const [introActive, setIntroActive] = useState(true);
+
+  // 3D rotation states for the premium showcase
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const handleVideoMouseMove = (e) => {
+    if (introActive) return; // Disable tilt during fullscreen intro
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Rotation range of -15 to 15 degrees for natural tilt
+    const rY = ((mouseX / width) - 0.5) * 30;
+    const rX = (((mouseY / height) - 0.5) * -30);
+
+    setRotation({ x: rX, y: rY });
+    setMousePos({ x: (mouseX / width) * 100, y: (mouseY / height) * 100 });
+  };
+
+  const handleVideoMouseLeave = () => {
+    setRotation({ x: 0, y: 0 });
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIntroActive(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Sticky Card Project Data
+  const projectsData = [
+    {
+      num: "01",
+      type: "Machine Learning",
+      name: "Retail Food Price Analysis and Prediction",
+      tech: ["Python", "SQL", "Streamlit", "Machine Learning"],
+      github: "https://github.com/Anbhuti/Retail-Food-Price-Analysis-and-Prediction",
+      desc: "Developed an end-to-end machine learning solution to analyze market trends and predict food pricing outcomes.",
+      highlights: [
+        "Linear Regression",
+        "Random Forest",
+        "Predictive Analytics",
+        "SQL Data Pipelines"
+      ]
+    },
+    {
+      num: "02",
+      type: "Exploratory Analytics",
+      name: "Netflix Content Analysis",
+      tech: ["Python", "Pandas", "Matplotlib"],
+      github: "https://github.com/Anbhuti/Netflix-python-",
+      desc: "Analyzed 8,000+ Netflix records to identify trends, genres, ratings, and content growth patterns.",
+      highlights: [
+        "Analyzed 8,000+ Netflix records to identify historical release trends.",
+        "Identified content genres, ratings, and distribution patterns.",
+        "Visualized and presented insights using Python, Pandas, and Matplotlib."
+      ]
+    },
+    {
+      num: "03",
+      type: "Data Engineering & Viz",
+      name: "Online Retail Sales Analysis",
+      tech: ["Excel", "SQL", "Tableau", "Python"],
+      github: "https://github.com/Anbhuti/Project-on-Online-Retail",
+      desc: "Analyzed 7,000+ retail transactions and generated business insights from 3.1M+ revenue data.",
+      highlights: [
+        "Ingested and analyzed large-scale datasets spanning over 7,000 unique retail transactions.",
+        "Cleaned and processed 3.1M+ sales revenue points with zero data leakage.",
+        "Generated actionable business insights and visualized KPIs using SQL, Excel, and Tableau."
+      ]
+    },
+    {
+      num: "04",
+      type: "Business Intelligence",
+      name: "Coffee Sales Analysis",
+      tech: ["Excel", "SQL", "Power BI"],
+      github: "https://github.com/Anbhuti/Coffee-Sales-Analysis",
+      desc: "Performed sales trend analysis, KPI reporting, and customer behavior analysis using interactive dashboards.",
+      highlights: [
+        "Performed sales trend analysis across yearly and quarterly cohorts.",
+        "Designed interactive dashboards tracking average ticket size and customer retention.",
+        "Conducted KPI reporting and customer behavior analysis to support business decisions."
+      ]
+    },
+    {
+      num: "05",
+      type: "Software Utility",
+      name: "YouTube Video Downloader",
+      tech: ["Python", "Streamlit"],
+      github: "https://github.com/Anbhuti/Youtube-video-download-project-",
+      desc: "Built a user-friendly YouTube video downloading application with URL-based processing and download automation.",
+      highlights: [
+        "Implemented video stream URL parsing and extraction routines using Python.",
+        "Designed an intuitive Streamlit interface for URL-based video fetching.",
+        "Incorporated robust error handling for network requests and download automation."
+      ]
+    }
+  ];
+
+  // Track scroll position for header visual highlight
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["hero", "about", "skills", "projects", "education", "contact"];
+      const scrollPos = window.scrollY + 200;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const triggerScrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <>
+      {/* Dynamic Animated Canvas Grid Background */}
+      <CanvasBackground />
+
+      {/* Fullscreen Introduction Backdrop */}
+      <AnimatePresence>
+        {introActive && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(3, 5, 12, 0.98)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              zIndex: 1000,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "20px",
+              pointerEvents: "auto"
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background: "var(--grad-primary)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 800,
+                fontSize: "2.5rem",
+                color: "#fff",
+                boxShadow: "0 0 40px rgba(0, 242, 254, 0.4)"
+              }}
+            >
+              A
+            </motion.div>
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              style={{
+                color: "var(--color-cyan)",
+                fontSize: "0.8rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                fontWeight: 700
+              }}
+            >
+              Initializing AI Core...
+            </motion.span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div style={{
+        position: "relative",
+        zIndex: 2,
+        background: "transparent",
+        minHeight: "100vh"
+      }}>
+
+        {/* ── STICKY NAVIGATION HEADER ── */}
+        <header style={{
+          position: "sticky", top: 0, zIndex: 100,
+          background: "rgba(6, 8, 19, 0.7)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderBottom: "1px solid var(--border-color)",
+          padding: "16px 24px"
+        }}>
+          <div className="container-max" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }} onClick={() => triggerScrollTo("hero")}>
+              <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--grad-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "0.95rem", color: "#fff" }}>A</div>
+              <span style={{ fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.02em", fontFamily: "var(--font-heading)" }}>ANUBHUTI PAL</span>
+            </div>
+
+            <nav style={{ display: "flex", gap: "clamp(12px, 2.5vw, 24px)", alignItems: "center" }}>
+              {["About", "Skills", "Projects", "Education", "Contact"].map((item) => {
+                const targetId = item.toLowerCase();
+                const isActive = activeSection === targetId;
+                return (
+                  <button
+                    key={item}
+                    onClick={() => triggerScrollTo(targetId)}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: isActive ? "var(--color-cyan)" : "var(--text-secondary)",
+                      fontSize: "0.85rem",
+                      fontWeight: isActive ? 600 : 500,
+                      cursor: "pointer",
+                      fontFamily: "var(--font-heading)",
+                      transition: "color 0.2s",
+                      position: "relative",
+                      padding: "4px 0"
+                    }}
+                  >
+                    {item}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        style={{
+                          position: "absolute", bottom: 0, left: 0, right: 0, height: "2px",
+                          background: "var(--grad-primary)", borderRadius: "2px"
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </header>
+
+        {/* ── HERO SECTION ── */}
+        <section id="hero" style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden", padding: "100px 0 80px 0" }}>
+          <div className="grid-bg" style={{ zIndex: 1 }} />
+          <div className="container-max" style={{
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "64px",
+            alignItems: "center",
+            position: "relative",
+            zIndex: 2
+          }}>
+
+            {/* Hero Details (Left Side) */}
+            <FadeIn delay={0.15}>
+              <div style={{ textAlign: "left" }}>
+
+                <h1 style={{
+                  fontSize: "clamp(3.5rem, 6.5vw, 5.2rem)",
+                  lineHeight: 0.95,
+                  fontWeight: 900,
+                  marginBottom: "8px",
+                  textTransform: "uppercase",
+                  letterSpacing: "-0.03em"
+                }} className="text-grad-primary">
+                  ANUBHUTI PAL
+                </h1>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "20px" }}>
+                  <h2 style={{
+                    fontSize: "clamp(2rem, 4vw, 3rem)",
+                    fontWeight: 800,
+                    color: "#fff",
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1
+                  }} className="text-glow-cyan">
+                    DATA ANALYST
+                  </h2>
+                  <h3 style={{
+                    fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+                    fontWeight: 800,
+                    letterSpacing: "0.05em",
+                    lineHeight: 1,
+                    background: "linear-gradient(90deg, var(--color-cyan) 0%, var(--color-purple) 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent"
+                  }} className="text-glow-purple">
+                    AI & DATA SCIENCE
+                  </h3>
+                </div>
+
+                {/* Rotating Skills Text Animation */}
+                <SkillsRotator />
+
+                {/* Technology Badges (Inspired by Ai Ps Id reference style but for Data/AI) */}
+                <div className="tech-badge-container" style={{ marginBottom: "36px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div className="tech-square-badge py">Py</div>
+                    <span className="tech-badge-label">Python</span>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div className="tech-square-badge sql">SQL</div>
+                    <span className="tech-badge-label">Database</span>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div className="tech-square-badge bi">BI</div>
+                    <span className="tech-badge-label">Power BI</span>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div className="tech-square-badge ai">AI</div>
+                    <span className="tech-badge-label">Gen AI</span>
+                  </div>
+                </div>
+
+                {/* Primary Button Options */}
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                  <button
+                    onClick={() => triggerScrollTo("projects")}
+                    style={{
+                      background: "var(--grad-primary)", border: "none", color: "#fff",
+                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 700,
+                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
+                      fontSize: "0.9rem", boxShadow: "0 10px 20px -10px rgba(0, 242, 254, 0.4)",
+                      transition: "all 0.3s"
+                    }}
+                    className="hover-glow"
+                  >
+                    <span>View Projects</span>
+                    <ArrowRight size={16} />
+                  </button>
+
+                  <a
+                    href="/Anubhuti_Pal_Resume.pdf"
+                    download="Anubhuti_Pal_Resume.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)", color: "#fff",
+                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 600,
+                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
+                      fontSize: "0.9rem", transition: "all 0.3s", textDecoration: "none"
+                    }}
+                    className="hover-glow"
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--color-cyan)"}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border-color)"}
+                  >
+                    <Download size={16} style={{ color: "var(--color-cyan)" }} />
+                    <span>Download Resume</span>
+                  </a>
+
+                  <button
+                    onClick={() => triggerScrollTo("contact")}
+                    style={{
+                      background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)", color: "#fff",
+                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 600,
+                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
+                      fontSize: "0.9rem", transition: "all 0.3s"
+                    }}
+                    className="hover-glow"
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--color-cyan)"}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border-color)"}
+                  >
+                    <span>Contact Me</span>
+                  </button>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Premium 3D Portrait Showcase (Right Side) */}
+            <FadeIn delay={0.3} style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                perspective: "1200px",
+                width: "100%",
+                position: "relative"
+              }}>
+                {/* Ambient Glowing Background Layers */}
+                <div style={{
+                  position: "absolute",
+                  width: "80%",
+                  height: "80%",
+                  background: "radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(127, 0, 255, 0.15) 100%)",
+                  filter: "blur(80px)",
+                  borderRadius: "50%",
+                  zIndex: 0,
+                  pointerEvents: "none",
+                  transform: "translateZ(-50px)"
+                }} />
+
+                <div style={{
+                  position: "absolute",
+                  width: "50%",
+                  height: "50%",
+                  background: "var(--color-cyan)",
+                  filter: "blur(100px)",
+                  borderRadius: "50%",
+                  zIndex: 0,
+                  pointerEvents: "none",
+                  left: "15%",
+                  top: "15%",
+                  opacity: 0.25,
+                  transform: "translateZ(-80px)"
+                }} />
+
+                {/* Main 3D Card Wrapper */}
+                <motion.div
+                  onMouseMove={handleVideoMouseMove}
+                  onMouseLeave={handleVideoMouseLeave}
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    maxWidth: "400px",
+                    aspectRatio: "3/4",
+                    transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateZ(0px)`,
+                    transformStyle: "preserve-3d",
+                    transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
+                    borderRadius: "24px",
+                    border: "1px solid rgba(0, 242, 254, 0.2)",
+                    boxShadow: `
+                      0 30px 60px -15px rgba(0, 0, 0, 0.8),
+                      0 0 50px -10px rgba(0, 242, 254, 0.2),
+                      inset 0 1px 0 0 rgba(255, 255, 255, 0.15)
+                    `,
+                    background: "rgba(10, 15, 30, 0.45)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    overflow: "visible", // Allow floating panels to overflow
+                    zIndex: 2
+                  }}
+                  className="holo-card-container"
+                >
+                  {/* Portrait Image */}
+                  <div style={{ width: "100%", height: "100%", overflow: "hidden", borderRadius: "24px" }}>
+                    <img
+                      src="/my_photo.png"
+                      alt="Anubhuti Pal"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block"
+                      }}
+                    />
+                  </div>
+
+                  {/* Holographic Overlays */}
+                  <div className="holo-grid" style={{ borderRadius: "24px", pointerEvents: "none" }} />
+                  <div className="holo-scanlines" style={{ borderRadius: "24px", pointerEvents: "none" }} />
+                  <div className="holo-reflection" style={{ borderRadius: "24px", pointerEvents: "none" }} />
+
+                  {/* Moving Light Flare */}
+                  <div
+                    className="light-flare"
+                    style={{
+                      left: `${mousePos.x}%`,
+                      top: `${mousePos.y}%`,
+                      transform: "translate(-50%, -50%)"
+                    }}
+                  />
+
+                  {/* Floating SQL Console (Left-Top) */}
+                  <motion.div
+                    className="floating-glass-panel sql-console"
+                    style={{ top: "10%", left: "-25%", padding: "12px 16px", width: "190px", pointerEvents: "none", zIndex: 10 }}
+                    animate={{ y: [-6, 6, -6] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div><span className="sql-keyword">SELECT</span> <span className="sql-string">insights</span></div>
+                    <div><span className="sql-keyword">FROM</span> brain_stream</div>
+                    <div><span className="sql-keyword">WHERE</span> model = <span className="sql-string">'GenAI'</span></div>
+                  </motion.div>
+
+                  {/* Floating KPI Card (Left-Bottom) */}
+                  <motion.div
+                    className="floating-glass-panel"
+                    style={{ bottom: "10%", left: "-15%", padding: "12px 18px", display: "flex", flexDirection: "column", gap: "2px", pointerEvents: "none", zIndex: 10 }}
+                    animate={{ y: [6, -6, 6] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <span style={{ fontSize: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>LLM Accuracy</span>
+                    <span style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-cyan)" }}>98.6%</span>
+                  </motion.div>
+
+                  {/* Floating Holographic Chart (Right-Top) */}
+                  <motion.div
+                    className="floating-glass-panel"
+                    style={{ top: "25%", right: "-20%", padding: "12px 16px", width: "160px", pointerEvents: "none", zIndex: 10 }}
+                    animate={{ y: [-8, 8, -8] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <span style={{ display: "block", fontSize: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, marginBottom: "8px" }}>Data Stream Vol</span>
+                    <svg viewBox="0 0 100 30" width="100%" height="30">
+                      <path d="M0,25 Q15,5 30,20 T60,5 T90,25" fill="none" stroke="var(--color-cyan)" strokeWidth="2" />
+                      <path d="M0,25 Q15,5 30,20 T60,5 T90,25 L100,30 L0,30 Z" fill="rgba(0, 242, 254, 0.08)" />
+                    </svg>
+                  </motion.div>
+
+                  {/* Floating Active Node Stream Indicator (Right-Bottom) */}
+                  <motion.div
+                    className="floating-glass-panel"
+                    style={{ bottom: "15%", right: "-15%", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", pointerEvents: "none", zIndex: 10 }}
+                    animate={{ y: [4, -4, 4] }}
+                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <span style={{ display: "inline-flex", gap: "2px" }}>
+                      <span className="data-bar" style={{ height: "12px", animationDelay: "0.1s" }} />
+                      <span className="data-bar" style={{ height: "18px", animationDelay: "0.3s" }} />
+                      <span className="data-bar" style={{ height: "8px", animationDelay: "0.5s" }} />
+                    </span>
+                    <span style={{ fontSize: "0.65rem", color: "#fff", fontWeight: 600 }}>Active Node</span>
+                  </motion.div>
+
+                  {/* Tech HUD Corner indicators */}
+                  <div style={{ position: "absolute", top: "12px", left: "12px", width: "15px", height: "15px", borderTop: "2px solid rgba(0, 242, 254, 0.5)", borderLeft: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
+                  <div style={{ position: "absolute", top: "12px", right: "12px", width: "15px", height: "15px", borderTop: "2px solid rgba(0, 242, 254, 0.5)", borderRight: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
+                  <div style={{ position: "absolute", bottom: "12px", left: "12px", width: "15px", height: "15px", borderBottom: "2px solid rgba(0, 242, 254, 0.5)", borderLeft: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
+                  <div style={{ position: "absolute", bottom: "12px", right: "12px", width: "15px", height: "15px", borderBottom: "2px solid rgba(0, 242, 254, 0.5)", borderRight: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
+                </motion.div>
+              </div>
+            </FadeIn>
+
+          </div>
+        </section>
+
+        {/* ── STATS BAR (SaaS style KPI Section) ── */}
+        <section style={{ position: "relative", zIndex: 10, marginTop: "-40px", padding: "0 24px", marginBottom: "40px" }}>
+          <div className="container-max">
+            <div className="glass-panel" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+              gap: "24px",
+              padding: "30px 40px",
+              background: "rgba(10, 15, 30, 0.55)",
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.3)",
+              textAlign: "center",
+              borderRadius: "24px"
+            }}>
+              <div>
+                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#fff", background: "var(--grad-primary)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  <KpiCounter value="8000" suffix="+" />
+                </div>
+                <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Netflix Catalog Records</div>
+              </div>
+
+              <div style={{ borderLeft: "1px solid var(--border-color)", borderRight: "1px solid var(--border-color)" }} className="kpi-divider">
+                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#fff", background: "var(--grad-primary)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  <KpiCounter value="3100000" suffix="+" />
+                </div>
+                <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Revenue Points Analyzed</div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#fff", background: "var(--grad-primary)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  <KpiCounter value="7000" suffix="+" />
+                </div>
+                <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Retail Transactions Ingested</div>
+              </div>
+
+              <div style={{ borderLeft: "1px solid var(--border-color)" }} className="kpi-divider-right">
+                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#fff", background: "var(--grad-primary)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  <KpiCounter value="5" suffix="+" />
+                </div>
+                <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>ML & Data Products</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── ABOUT ME SECTION ── */}
+        <section id="about" style={{ padding: "100px 0", background: "rgba(13, 17, 34, 0.2)", position: "relative" }}>
+          <div className="container-max" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "60px", alignItems: "start" }}>
+
+            {/* Left Side: Professional Bio, Education and Experience Summaries */}
+            <FadeIn delay={0.15} style={{ textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>About Me</span>
+              </div>
+              <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "20px", lineHeight: 1.15 }}>
+                Hello, I&apos;m Anubhuti Pal.
+              </h2>
+
+              <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", marginBottom: "28px", lineHeight: 1.65 }}>
+                I am an MCA (Data Science & AI) Student with a strong passion for Data Analytics, Business Intelligence, Data Visualization, and Machine Learning. I enjoy transforming raw data into actionable insights and building data-driven solutions that help businesses make informed decisions.
+              </p>
+
+
+
+              {/* Experience Summary */}
+              <div>
+                <h4 style={{ fontSize: "0.95rem", color: "#fff", display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <Award size={16} style={{ color: "var(--color-purple)" }} />
+                  <span>Experience Summary</span>
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {/* Deloitte Experience */}
+                  <div className="glass-panel" style={{ padding: "20px", borderLeft: "4px solid var(--color-cyan)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
+                      <div>
+                        <h5 style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 700 }}>Data Analytics Virtual Intern</h5>
+                        <div style={{ fontSize: "0.8rem", color: "var(--color-cyan)", fontWeight: 600 }}>Deloitte (Forage)</div>
+                      </div>
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", background: "rgba(255,255,255,0.03)", padding: "2px 8px", borderRadius: "4px" }}>January 2026</span>
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
+                      {[
+                        "Analyzed datasets using Excel and SQL to identify trends and generate actionable insights.",
+                        "Created interactive dashboards and reports in Power BI."
+                      ].map((bullet, i) => (
+                        <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                          <span style={{ color: "var(--color-cyan)" }}>•</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href="/certificates/Deloitte%20Data%20Analyst%20certificate.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cert-card"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        padding: "6px 12px",
+                        borderRadius: "8px",
+                        border: "1px solid rgba(0, 242, 254, 0.15)",
+                        background: "rgba(0, 242, 254, 0.03)",
+                        textDecoration: "none",
+                        fontSize: "0.75rem",
+                        color: "var(--color-cyan)",
+                        fontWeight: 600
+                      }}
+                    >
+                      <span>Completion Certificate</span>
+                      <ExternalLink size={12} />
+                    </a>
+                  </div>
+
+                  {/* IBM Experience */}
+                  <div className="glass-panel" style={{ padding: "20px", borderLeft: "4px solid var(--color-purple)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "flex-start", gap: "8px", marginBottom: "8px" }}>
+                      <div>
+                        <h5 style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 700 }}>Generative AI Virtual Intern</h5>
+                        <div style={{ fontSize: "0.8rem", color: "var(--color-purple)", fontWeight: 600 }}>IBM Developer Skills Network</div>
+                      </div>
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", background: "rgba(255,255,255,0.03)", padding: "2px 8px", borderRadius: "4px" }}>Feb – Mar 2026</span>
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
+                      {[
+                        "Explored Generative AI concepts and real-world applications.",
+                        "Worked with AI-powered tools and prompt engineering techniques."
+                      ].map((bullet, i) => (
+                        <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                          <span style={{ color: "var(--color-purple)" }}>•</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
+                      <img src="/ibm_badge.png" alt="IBM Badge" style={{ width: "32px", height: "32px", objectFit: "contain" }} />
+                      <a
+                        href="/certificates/IBMCEP%20PBELGEN221IN%20Certificate%20_%20IBMMooc.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="cert-card"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          padding: "6px 12px",
+                          borderRadius: "8px",
+                          border: "1px solid rgba(127, 0, 255, 0.15)",
+                          background: "rgba(127, 0, 255, 0.03)",
+                          textDecoration: "none",
+                          fontSize: "0.75rem",
+                          color: "var(--color-purple)",
+                          fontWeight: 600
+                        }}
+                      >
+                        <span>Completion Certificate</span>
+                        <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Right Side: Introduction Video (Cinematic Apple/OpenAI presentation) */}
+            <FadeIn delay={0.3} style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", alignSelf: "center" }}>
+              <IntroVideo />
+            </FadeIn>
+
+          </div>
+        </section>
+
+
+
+        {/* ── TECHNICAL SKILLS SECTION ── */}
+        <section id="skills" style={{ padding: "100px 0", background: "rgba(13, 17, 34, 0.15)" }}>
+          <div className="container-max">
+
+            <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 60px" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>Expertise Matrix</span>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+              </div>
+              <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "16px" }}>
+                Technical Skillsets
+              </h2>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+                My technical capabilities across programming, analytics, dashboard creation, libraries, and developer tools.
+              </p>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px" }}>
+              {/* Category 1: Programming Languages */}
+              <FadeIn delay={0.1} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(0, 242, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <Terminal size={20} style={{ color: "var(--color-cyan)", margin: "0 auto" }} />
+                </div>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Programming Languages</h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {[
+                    { name: "Python", prof: "90%" },
+                    { name: "SQL", prof: "85%" }
+                  ].map((s, i) => (
+                    <div key={i}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", marginBottom: "4px" }}>
+                        <span>{s.name}</span>
+                        <span style={{ color: "var(--color-cyan)" }}>{s.prof}</span>
+                      </div>
+                      <div style={{ background: "rgba(255,255,255,0.05)", height: "4px", borderRadius: "2px" }}>
+                        <div style={{ background: "var(--grad-primary)", height: "100%", width: s.prof, borderRadius: "2px" }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </FadeIn>
+
+              {/* Category 2: Data Analytics */}
+              <FadeIn delay={0.2} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(79, 172, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <Database size={20} style={{ color: "var(--color-blue)", margin: "0 auto" }} />
+                </div>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Data Analytics</h3>
+                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                  {["Data Analysis", "Exploratory Data Analysis (EDA)", "Statistical Analysis", "Insight Generation", "Business Intelligence"].map((s, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-blue)" }} />
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </FadeIn>
+
+              {/* Category 3: Visualization Tools */}
+              <FadeIn delay={0.3} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(127, 0, 255, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <BarChart3 size={20} style={{ color: "var(--color-purple)", margin: "0 auto" }} />
+                </div>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Visualization Tools</h3>
+                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                  {["Power BI", "Tableau", "Excel Dashboards", "KPI Reporting"].map((s, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-purple)" }} />
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </FadeIn>
+
+              {/* Category 4: Libraries */}
+              <FadeIn delay={0.4} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(0, 242, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <Cpu size={20} style={{ color: "var(--color-cyan)", margin: "0 auto" }} />
+                </div>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Libraries</h3>
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                  {["Pandas", "NumPy", "Matplotlib", "Scikit-Learn"].map((t, i) => (
+                    <span key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-color)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </FadeIn>
+
+              {/* Category 5: Tools */}
+              <FadeIn delay={0.5} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(79, 172, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+                  <Settings size={20} style={{ color: "var(--color-blue)", margin: "0 auto" }} />
+                </div>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Tools</h3>
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                  {["Excel", "Streamlit", "GitHub", "Power BI", "Tableau"].map((t, i) => (
+                    <span key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-color)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </FadeIn>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── PROJECTS SECTION (STICKY STACK CARDS) ── */}
+        <section id="projects" style={{ padding: "100px 0", position: "relative" }}>
+          <div className="container-max" style={{ marginBottom: "60px" }}>
+            <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>My Portfolio</span>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+              </div>
+              <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "16px" }}>
+                Featured Projects
+              </h2>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+                A stacked catalog of my data analysis, machine learning forecasts, and custom utility engineering repositories.
+              </p>
+            </div>
+          </div>
+
+          {/* Cards container wrapper (will hold the scroll offsets) */}
+          <div className="container-max" style={{ display: "flex", flexDirection: "column", gap: "0px", position: "relative" }}>
+            {projectsData.map((project, index) => (
+              <ProjectCard
+                key={project.num}
+                project={project}
+                index={index}
+                total={projectsData.length}
+                scrollRef={{ current: document.getElementById("projects") }}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* ── CERTIFICATIONS & EDUCATION SECTION ── */}
+        <section id="education" style={{ padding: "100px 0", background: "rgba(13, 17, 34, 0.2)" }}>
+          <div className="container-max" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "60px" }}>
+
+            {/* Education timeline */}
+            <div style={{ textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>Chronology</span>
+              </div>
+              <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "36px" }}>Education History</h2>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "32px", borderLeft: "1px solid rgba(255,255,255,0.08)", paddingLeft: "24px", position: "relative" }}>
+                {/* Degree 1 */}
+                <div style={{ position: "relative" }}>
+                  {/* Timeline dot */}
+                  <div style={{ position: "absolute", left: "-30px", top: "6px", width: "10px", height: "10px", borderRadius: "50%", background: "var(--color-cyan)", boxShadow: "0 0 10px var(--color-cyan)" }} />
+                  <span style={{ color: "var(--color-cyan)", fontSize: "0.8rem", fontWeight: 700 }}>2024 – 2026</span>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginTop: "4px" }}>Master of Computer Applications (Data Science & AI)</h3>
+                  <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", margin: "2px 0 6px" }}>Babu Banarasi Das University, Lucknow</p>
+                  <div style={{ display: "inline-block", background: "rgba(255,255,255,0.03)", padding: "2px 10px", borderRadius: "6px", fontSize: "0.8rem", color: "var(--color-cyan)" }}>
+                    Percentage Score: <strong>69.3%</strong>
+                  </div>
+                </div>
+
+                {/* Degree 2 */}
+                <div style={{ position: "relative" }}>
+                  {/* Timeline dot */}
+                  <div style={{ position: "absolute", left: "-30px", top: "6px", width: "10px", height: "10px", borderRadius: "50%", background: "var(--color-purple)", boxShadow: "0 0 10px var(--color-purple)" }} />
+                  <span style={{ color: "var(--color-purple)", fontSize: "0.8rem", fontWeight: 700 }}>2021 – 2024</span>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginTop: "4px" }}>Bachelor of Computer Applications</h3>
+                  <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", margin: "2px 0 6px" }}>Ambalika Institute of Higher Education, Lucknow</p>
+                  <div style={{ display: "inline-block", background: "rgba(255,255,255,0.03)", padding: "2px 10px", borderRadius: "6px", fontSize: "0.8rem", color: "var(--color-purple)" }}>
+                    Percentage Score: <strong>71.7%</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Certifications list */}
+            <div style={{ textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-purple)", fontWeight: 700 }}>Verification</span>
+              </div>
+              <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "36px" }}>Professional Certifications</h2>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {[
+                  { name: "IBM AI Analyst", org: "IBM", link: "/certificates/AI%20certificate.pdf" },
+                  { name: "Machine Learning with Python", org: "IBM", link: "/certificates/ML%20%20certificate.pdf" },
+                  { name: "Python for Data Science", org: "IBM", link: "/certificates/Python%20certificate.pdf" },
+                  { name: "NoSQL & DBaaS", org: "IBM", link: "/certificates/No%20sql%20certificate.pdf" },
+                  { name: "Deloitte Data Analytics Job Simulation", org: "Deloitte (Forage)", link: "/certificates/Deloitte%20Data%20Analyst%20certificate.pdf" },
+                  { name: "Accenture Software Engineering Job Simulation", org: "Accenture (Forage)", link: "/certificates/Accenture%20certficate.pdf" },
+                  { name: "GeeksforGeeks Certification", org: "GeeksforGeeks", link: "/certificates/geek%20for%20geek%20certificate.pdf" }
+                ].map((c, idx) => (
+                  <a
+                    key={idx}
+                    href={c.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="glass-panel cert-card"
+                    style={{
+                      padding: "16px 20px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "16px",
+                      cursor: "pointer",
+                      textDecoration: "none"
+                    }}
+                  >
+                    <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "rgba(127, 0, 255, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Award size={18} style={{ color: "var(--color-purple)", margin: "0 auto" }} />
+                    </div>
+                    <div style={{ flexGrow: 1 }}>
+                      <h4 style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span>{c.name}</span>
+                        <ExternalLink size={14} style={{ color: "var(--color-purple)", opacity: 0.8 }} />
+                      </h4>
+                      <p style={{ color: "var(--text-secondary)", fontSize: "0.8rem" }}>Issued by {c.org}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── CONTACT SECTION ── */}
+        <section id="contact" style={{ padding: "100px 0", position: "relative" }}>
+          <div className="grid-bg" />
+          <div className="container-max" style={{ maxWidth: "1000px" }}>
+
+            <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 60px" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>Get In Touch</span>
+                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
+              </div>
+              <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "16px" }}>
+                Let&apos;s Build Together
+              </h2>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+                I am actively seeking job opportunities and collaborations in Data Analytics, Business Intelligence, and ML engineering.
+              </p>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "40px", alignItems: "start" }}>
+
+              {/* Contact Information Card */}
+              <div className="glass-panel" style={{ padding: "32px", textAlign: "left" }}>
+                <h3 style={{ fontSize: "1.25rem", color: "#fff", marginBottom: "24px" }}>Contact Details</h3>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <a
+                      href="mailto:palanubhuti2707@gmail.com"
+                      style={{
+                        width: "40px", height: "40px", borderRadius: "50%",
+                        background: "rgba(0, 242, 254, 0.06)", display: "flex",
+                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
+                      }}
+                      className="hover-glow"
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.06)"; }}
+                    >
+                      <Mail size={18} style={{ color: "var(--color-cyan)" }} />
+                    </a>
+                    <div>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Email Address</span>
+                      <a href="mailto:palanubhuti2707@gmail.com" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">palanubhuti2707@gmail.com</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <a
+                      href="https://www.linkedin.com/in/anubhuti-pal-117886232"
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        width: "40px", height: "40px", borderRadius: "50%",
+                        background: "rgba(127, 0, 255, 0.06)", display: "flex",
+                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
+                      }}
+                      className="hover-glow"
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.06)"; }}
+                    >
+                      <Linkedin size={18} style={{ color: "var(--color-purple)" }} />
+                    </a>
+                    <div>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>LinkedIn</span>
+                      <a href="https://www.linkedin.com/in/anubhuti-pal-117886232" target="_blank" rel="noreferrer" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">anubhuti-pal-117886232</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <a
+                      href="https://github.com/Anbhuti"
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        width: "40px", height: "40px", borderRadius: "50%",
+                        background: "rgba(0, 242, 254, 0.06)", display: "flex",
+                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
+                      }}
+                      className="hover-glow"
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.06)"; }}
+                    >
+                      <Github size={18} style={{ color: "var(--color-cyan)" }} />
+                    </a>
+                    <div>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>GitHub</span>
+                      <a href="https://github.com/Anbhuti" target="_blank" rel="noreferrer" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">github.com/Anbhuti</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <a
+                      href="https://my-websitee-q63x.onrender.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        width: "40px", height: "40px", borderRadius: "50%",
+                        background: "rgba(127, 0, 255, 0.06)", display: "flex",
+                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
+                      }}
+                      className="hover-glow"
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.06)"; }}
+                    >
+                      <ExternalLink size={18} style={{ color: "var(--color-purple)" }} />
+                    </a>
+                    <div>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Current Portfolio</span>
+                      <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">my-websitee-q63x.onrender.com</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <a
+                      href="tel:+919569642618"
+                      style={{
+                        width: "40px", height: "40px", borderRadius: "50%",
+                        background: "rgba(0, 242, 254, 0.06)", display: "flex",
+                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
+                      }}
+                      className="hover-glow"
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.15)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0, 242, 254, 0.06)"; }}
+                    >
+                      <Phone size={18} style={{ color: "var(--color-cyan)" }} />
+                    </a>
+                    <div>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Phone</span>
+                      <a href="tel:+919569642618" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">+91 9569642618</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Styled Interactive Contact Form */}
+              <div className="glass-panel" style={{ padding: "32px", textAlign: "left" }}>
+                <form onSubmit={(e) => { e.preventDefault(); alert("Thanks for reaching out! (Demo Only)"); }} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Name</label>
+                    <input
+                      type="text" required placeholder="John Doe"
+                      style={{
+                        width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
+                        padding: "10px 14px", color: "#fff", outline: "none", transition: "border-color 0.3s"
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = "var(--color-cyan)"}
+                      onBlur={(e) => e.target.style.borderColor = "var(--border-color)"}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Email</label>
+                    <input
+                      type="email" required placeholder="name@company.com"
+                      style={{
+                        width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
+                        padding: "10px 14px", color: "#fff", outline: "none", transition: "border-color 0.3s"
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = "var(--color-cyan)"}
+                      onBlur={(e) => e.target.style.borderColor = "var(--border-color)"}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Message</label>
+                    <textarea
+                      required rows="4" placeholder="Hi Anubhuti, I would love to talk about..."
+                      style={{
+                        width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
+                        padding: "10px 14px", color: "#fff", outline: "none", transition: "border-color 0.3s", resize: "none"
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = "var(--color-cyan)"}
+                      onBlur={(e) => e.target.style.borderColor = "var(--border-color)"}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{
+                      background: "var(--grad-primary)", border: "none", color: "#fff",
+                      borderRadius: "8px", padding: "12px", fontWeight: 700,
+                      cursor: "pointer", transition: "transform 0.2s", textAlign: "center"
+                    }}
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── FOOTER ── */}
+        <footer style={{ borderTop: "1px solid var(--border-color)", padding: "40px 24px", color: "var(--text-muted)", fontSize: "0.85rem", background: "rgba(6, 8, 19, 0.9)" }}>
+          <div className="container-max" style={{ display: "flex", flexDirection: "column", gap: "24px", alignItems: "center", textAlign: "center" }}>
+            <div>
+              <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginBottom: "4px" }}>Anubhuti Pal</h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Data Analyst | Data Science & AI Student</p>
+            </div>
+
+            <p style={{ fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto", fontSize: "0.9rem" }}>
+              &ldquo;Turning Data Into Actionable Insights Through Analytics, Visualization, and Machine Learning.&rdquo;
+            </p>
+
+            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
+              <a href="https://github.com/Anbhuti" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>GitHub Link</a>
+              <a href="https://www.linkedin.com/in/anubhuti-pal-117886232" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>LinkedIn Link</a>
+              <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Portfolio Link</a>
+              <a href="mailto:palanubhuti2707@gmail.com" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Email Link</a>
+            </div>
+
+            <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.05)", width: "100%", paddingTop: "20px", fontSize: "0.8rem", color: "var(--text-muted)" }}>
+              © 2026 Anubhuti Pal. All Rights Reserved.
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </>
+  );
+}
