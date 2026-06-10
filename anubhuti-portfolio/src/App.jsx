@@ -1906,7 +1906,7 @@ export default function App() {
           <div className="container-max" style={{ display: "flex", flexDirection: "column", gap: "24px", alignItems: "center", textAlign: "center" }}>
             <div>
               <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginBottom: "4px" }}>Anubhuti Pal</h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Data Analyst | Data Science & AI Graduate</p>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Data Analyst | Data Science & AI</p>
             </div>
 
             <p style={{ fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto", fontSize: "0.9rem" }}>
