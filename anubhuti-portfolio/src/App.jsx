@@ -782,6 +782,8 @@ export default function App() {
   // 3D rotation states for the premium showcase
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState({ type: "", message: "" });
 
   const handleVideoMouseMove = (e) => {
     if (introActive) return; // Disable tilt during fullscreen intro
@@ -1768,28 +1770,6 @@ export default function App() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                     <a
-                      href="https://my-websitee-q63x.onrender.com"
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        width: "40px", height: "40px", borderRadius: "50%",
-                        background: "rgba(127, 0, 255, 0.06)", display: "flex",
-                        alignItems: "center", justifyContent: "center", transition: "all 0.3s"
-                      }}
-                      className="hover-glow"
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.15)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(127, 0, 255, 0.06)"; }}
-                    >
-                      <ExternalLink size={18} style={{ color: "var(--color-purple)" }} />
-                    </a>
-                    <div>
-                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Current Site</span>
-                      <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">my-websitee-q63x.onrender.com</a>
-                    </div>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                    <a
                       href="tel:+919569642618"
                       style={{
                         width: "40px", height: "40px", borderRadius: "50%",
@@ -1812,15 +1792,51 @@ export default function App() {
 
               {/* Styled Interactive Contact Form */}
               <div className="glass-panel" style={{ padding: "32px", textAlign: "left" }}>
-                <form onSubmit={(e) => {
+                <form onSubmit={async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
-                    const name = formData.get("name") || "";
-                    const email = formData.get("email") || "";
-                    const message = formData.get("message") || "";
-                    const subject = encodeURIComponent(`Contact from ${name}`);
-                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-                    window.location.href = `mailto:palanubhuti2707@gmail.com?subject=${subject}&body=${body}`;
+                    if (isSubmitting) return;
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+                    const name = (formData.get("name") || "").toString().trim();
+                    const email = (formData.get("email") || "").toString().trim();
+                    const message = (formData.get("message") || "").toString().trim();
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!name || !email || !message) {
+                      setFormStatus({ type: "error", message: "Please complete all fields before sending." });
+                      return;
+                    }
+                    if (!emailRegex.test(email)) {
+                      setFormStatus({ type: "error", message: "Please enter a valid email address." });
+                      return;
+                    }
+                    setIsSubmitting(true);
+                    setFormStatus({ type: "", message: "" });
+                    try {
+                      const response = await fetch("https://formsubmit.co/ajax/palanubhuti2707@gmail.com", {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          name,
+                          email,
+                          message,
+                          _subject: "New message from your website",
+                          _captcha: "false",
+                        }),
+                      });
+                      const result = await response.json();
+                      if (!response.ok || result.success === false) {
+                        throw new Error(result.message || "Unable to send message.");
+                      }
+                      setFormStatus({ type: "success", message: "Thank you for your message. I will get back to you soon." });
+                      form.reset();
+                    } catch (error) {
+                      setFormStatus({ type: "error", message: "Message could not be sent. Please try again later." });
+                    } finally {
+                      setIsSubmitting(false);
+                    }
                   }} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Name</label>
@@ -1861,16 +1877,22 @@ export default function App() {
                       onBlur={(e) => e.target.style.borderColor = "var(--border-color)"}
                     />
                   </div>
-
+                  {formStatus.message && (
+                    <div style={{ color: formStatus.type === "success" ? "#7CFFD4" : "#F87171", fontSize: "0.95rem", fontWeight: 600 }}>
+                      {formStatus.message}
+                    </div>
+                  )}
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     style={{
                       background: "var(--grad-primary)", border: "none", color: "#fff",
                       borderRadius: "8px", padding: "12px", fontWeight: 700,
-                      cursor: "pointer", transition: "transform 0.2s", textAlign: "center"
+                      cursor: isSubmitting ? "not-allowed" : "pointer", transition: "transform 0.2s", textAlign: "center",
+                      opacity: isSubmitting ? 0.75 : 1
                     }}
                   >
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
               </div>
@@ -1884,7 +1906,7 @@ export default function App() {
           <div className="container-max" style={{ display: "flex", flexDirection: "column", gap: "24px", alignItems: "center", textAlign: "center" }}>
             <div>
               <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginBottom: "4px" }}>Anubhuti Pal</h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Data Analyst | Data Science & AI Student</p>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Data Analyst | Data Science & AI Graduate</p>
             </div>
 
             <p style={{ fontStyle: "italic", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto", fontSize: "0.9rem" }}>
@@ -1894,7 +1916,6 @@ export default function App() {
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
               <a href="https://github.com/Anbhuti" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>GitHub Link</a>
               <a href="https://www.linkedin.com/in/anubhuti-pal-117886232" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>LinkedIn Link</a>
-              <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Website Link</a>
               <a href="mailto:palanubhuti2707@gmail.com" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Email Link</a>
             </div>
 
