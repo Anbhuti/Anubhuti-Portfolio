@@ -773,7 +773,7 @@ function IntroVideo() {
   );
 }
 
-/* ── MAIN PORTFOLIO COMPONENT ── */
+/* ── MAIN COMPONENT ── */
 export default function App() {
   const [activeSection, setActiveSection] = useState("hero");
   // Fullscreen introduction state
@@ -1560,7 +1560,7 @@ export default function App() {
             <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
                 <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
-                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>My Portfolio</span>
+                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>My Work</span>
                 <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
               </div>
               <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "16px" }}>
@@ -1783,7 +1783,7 @@ export default function App() {
                       <ExternalLink size={18} style={{ color: "var(--color-purple)" }} />
                     </a>
                     <div>
-                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Current Portfolio</span>
+                      <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Current Site</span>
                       <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">my-websitee-q63x.onrender.com</a>
                     </div>
                   </div>
@@ -1858,7 +1858,7 @@ export default function App() {
                       cursor: "pointer", transition: "transform 0.2s", textAlign: "center"
                     }}
                   >
-                    Send Message
+                    Send
                   </button>
                 </form>
               </div>
@@ -1882,7 +1882,7 @@ export default function App() {
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
               <a href="https://github.com/Anbhuti" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>GitHub Link</a>
               <a href="https://www.linkedin.com/in/anubhuti-pal-117886232" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>LinkedIn Link</a>
-              <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Portfolio Link</a>
+              <a href="https://my-websitee-q63x.onrender.com" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Website Link</a>
               <a href="mailto:palanubhuti2707@gmail.com" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Email Link</a>
             </div>
 
