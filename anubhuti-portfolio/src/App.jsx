@@ -1205,6 +1205,9 @@ export default function App() {
                 <motion.div
                   onMouseMove={handleVideoMouseMove}
                   onMouseLeave={handleVideoMouseLeave}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                  whileHover={{ scale: 1.02 }}
                   style={{
                     position: "relative",
                     width: "100%",
@@ -1213,26 +1216,26 @@ export default function App() {
                     transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateZ(0px)`,
                     transformStyle: "preserve-3d",
                     transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
-                    borderRadius: "24px",
-                    border: "1px solid rgba(0, 242, 254, 0.2)",
+                    borderRadius: "28px",
+                    border: "1px solid rgba(0, 242, 254, 0.24)",
                     boxShadow: `
-                      0 30px 60px -15px rgba(0, 0, 0, 0.8),
-                      0 0 50px -10px rgba(0, 242, 254, 0.2),
-                      inset 0 1px 0 0 rgba(255, 255, 255, 0.15)
+                      0 30px 70px -20px rgba(0, 0, 0, 0.65),
+                      0 0 70px -20px rgba(0, 242, 254, 0.18),
+                      inset 0 1px 0 0 rgba(255, 255, 255, 0.12)
                     `,
-                    background: "rgba(10, 15, 30, 0.45)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    overflow: "visible", // Allow floating panels to overflow
+                    background: "rgba(10, 15, 30, 0.55)",
+                    backdropFilter: "blur(18px)",
+                    WebkitBackdropFilter: "blur(18px)",
+                    overflow: "hidden",
                     zIndex: 2
                   }}
                   className="holo-card-container"
                 >
                   {/* Portrait Image */}
-                  <div style={{ width: "100%", height: "100%", overflow: "hidden", borderRadius: "24px" }}>
+                  <div style={{ width: "100%", height: "100%", overflow: "hidden", borderRadius: "28px" }}>
                     <img
-                      src="/my_photo.png"
-                      alt="Anubhuti Pal"
+                      src="/photo.jpg"
+                      alt="Personal portrait"
                       style={{
                         width: "100%",
                         height: "100%",
@@ -1243,9 +1246,9 @@ export default function App() {
                   </div>
 
                   {/* Holographic Overlays */}
-                  <div className="holo-grid" style={{ borderRadius: "24px", pointerEvents: "none" }} />
-                  <div className="holo-scanlines" style={{ borderRadius: "24px", pointerEvents: "none" }} />
-                  <div className="holo-reflection" style={{ borderRadius: "24px", pointerEvents: "none" }} />
+                  <div className="holo-grid" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.45 }} />
+                  <div className="holo-scanlines" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.2 }} />
+                  <div className="holo-reflection" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.4 }} />
 
                   {/* Moving Light Flare */}
                   <div
@@ -1253,67 +1256,10 @@ export default function App() {
                     style={{
                       left: `${mousePos.x}%`,
                       top: `${mousePos.y}%`,
-                      transform: "translate(-50%, -50%)"
+                      transform: "translate(-50%, -50%)",
+                      opacity: 0.75
                     }}
                   />
-
-                  {/* Floating SQL Console (Left-Top) */}
-                  <motion.div
-                    className="floating-glass-panel sql-console"
-                    style={{ top: "10%", left: "-25%", padding: "12px 16px", width: "190px", pointerEvents: "none", zIndex: 10 }}
-                    animate={{ y: [-6, 6, -6] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <div><span className="sql-keyword">SELECT</span> <span className="sql-string">insights</span></div>
-                    <div><span className="sql-keyword">FROM</span> brain_stream</div>
-                    <div><span className="sql-keyword">WHERE</span> model = <span className="sql-string">'GenAI'</span></div>
-                  </motion.div>
-
-                  {/* Floating KPI Card (Left-Bottom) */}
-                  <motion.div
-                    className="floating-glass-panel"
-                    style={{ bottom: "10%", left: "-15%", padding: "12px 18px", display: "flex", flexDirection: "column", gap: "2px", pointerEvents: "none", zIndex: 10 }}
-                    animate={{ y: [6, -6, 6] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <span style={{ fontSize: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>LLM Accuracy</span>
-                    <span style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-cyan)" }}>98.6%</span>
-                  </motion.div>
-
-                  {/* Floating Holographic Chart (Right-Top) */}
-                  <motion.div
-                    className="floating-glass-panel"
-                    style={{ top: "25%", right: "-20%", padding: "12px 16px", width: "160px", pointerEvents: "none", zIndex: 10 }}
-                    animate={{ y: [-8, 8, -8] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <span style={{ display: "block", fontSize: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, marginBottom: "8px" }}>Data Stream Vol</span>
-                    <svg viewBox="0 0 100 30" width="100%" height="30">
-                      <path d="M0,25 Q15,5 30,20 T60,5 T90,25" fill="none" stroke="var(--color-cyan)" strokeWidth="2" />
-                      <path d="M0,25 Q15,5 30,20 T60,5 T90,25 L100,30 L0,30 Z" fill="rgba(0, 242, 254, 0.08)" />
-                    </svg>
-                  </motion.div>
-
-                  {/* Floating Active Node Stream Indicator (Right-Bottom) */}
-                  <motion.div
-                    className="floating-glass-panel"
-                    style={{ bottom: "15%", right: "-15%", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", pointerEvents: "none", zIndex: 10 }}
-                    animate={{ y: [4, -4, 4] }}
-                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <span style={{ display: "inline-flex", gap: "2px" }}>
-                      <span className="data-bar" style={{ height: "12px", animationDelay: "0.1s" }} />
-                      <span className="data-bar" style={{ height: "18px", animationDelay: "0.3s" }} />
-                      <span className="data-bar" style={{ height: "8px", animationDelay: "0.5s" }} />
-                    </span>
-                    <span style={{ fontSize: "0.65rem", color: "#fff", fontWeight: 600 }}>Active Node</span>
-                  </motion.div>
-
-                  {/* Tech HUD Corner indicators */}
-                  <div style={{ position: "absolute", top: "12px", left: "12px", width: "15px", height: "15px", borderTop: "2px solid rgba(0, 242, 254, 0.5)", borderLeft: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
-                  <div style={{ position: "absolute", top: "12px", right: "12px", width: "15px", height: "15px", borderTop: "2px solid rgba(0, 242, 254, 0.5)", borderRight: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
-                  <div style={{ position: "absolute", bottom: "12px", left: "12px", width: "15px", height: "15px", borderBottom: "2px solid rgba(0, 242, 254, 0.5)", borderLeft: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
-                  <div style={{ position: "absolute", bottom: "12px", right: "12px", width: "15px", height: "15px", borderBottom: "2px solid rgba(0, 242, 254, 0.5)", borderRight: "2px solid rgba(0, 242, 254, 0.5)", pointerEvents: "none" }} />
                 </motion.div>
               </div>
             </FadeIn>
