@@ -1812,10 +1812,20 @@ export default function App() {
 
               {/* Styled Interactive Contact Form */}
               <div className="glass-panel" style={{ padding: "32px", textAlign: "left" }}>
-                <form onSubmit={(e) => { e.preventDefault(); alert("Thanks for reaching out! (Demo Only)"); }} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const name = formData.get("name") || "";
+                    const email = formData.get("email") || "";
+                    const message = formData.get("message") || "";
+                    const subject = encodeURIComponent(`Contact from ${name}`);
+                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+                    window.location.href = `mailto:palanubhuti2707@gmail.com?subject=${subject}&body=${body}`;
+                  }} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Name</label>
                     <input
+                      name="name"
                       type="text" required placeholder="John Doe"
                       style={{
                         width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
@@ -1828,6 +1838,7 @@ export default function App() {
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Email</label>
                     <input
+                      name="email"
                       type="email" required placeholder="name@company.com"
                       style={{
                         width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
@@ -1840,6 +1851,7 @@ export default function App() {
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "6px", fontWeight: 600 }}>Your Message</label>
                     <textarea
+                      name="message"
                       required rows="4" placeholder="Hi Anubhuti, I would love to talk about..."
                       style={{
                         width: "100%", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", borderRadius: "8px",
@@ -1858,7 +1870,7 @@ export default function App() {
                       cursor: "pointer", transition: "transform 0.2s", textAlign: "center"
                     }}
                   >
-                    Send
+                    Send Message
                   </button>
                 </form>
               </div>
