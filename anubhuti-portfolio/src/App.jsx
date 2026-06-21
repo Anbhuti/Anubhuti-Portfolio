@@ -1038,234 +1038,76 @@ export default function App() {
         </header>
 
         {/* ── HERO SECTION ── */}
-        <section id="hero" style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden", padding: "100px 0 80px 0" }}>
+        <section id="hero" className="hero-section">
           <div className="grid-bg" style={{ zIndex: 1 }} />
-          <div className="container-max" style={{
-            width: "100%",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "64px",
-            alignItems: "center",
-            position: "relative",
-            zIndex: 2
-          }}>
-
-            {/* Hero Details (Left Side) */}
+          <div className="container-max hero-layout" style={{ position: "relative", zIndex: 2 }}>
             <FadeIn delay={0.15}>
-              <div style={{ textAlign: "left" }}>
+              <div className="hero-copy">
+                <span className="hero-pill">Aspiring Data Analyst</span>
+                <h1 className="hero-title">ANUBHUTI PAL</h1>
+                <p className="hero-subtitle">AI & Data Science</p>
+                <p className="hero-text">
+                  Crafting modern analytics experiences with clean dashboards, structured data workflows, and AI-powered insight generation.
+                </p>
 
-                <h1 style={{
-                  fontSize: "clamp(3.5rem, 6.5vw, 5.2rem)",
-                  lineHeight: 0.95,
-                  fontWeight: 900,
-                  marginBottom: "8px",
-                  textTransform: "uppercase",
-                  letterSpacing: "-0.03em"
-                }} className="text-grad-primary">
-                  ANUBHUTI PAL
-                </h1>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "20px" }}>
-                  <h2 style={{
-                    fontSize: "clamp(2rem, 4vw, 3rem)",
-                    fontWeight: 800,
-                    color: "#fff",
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1
-                  }} className="text-glow-cyan">
-                    DATA ANALYST
-                  </h2>
-                  <h3 style={{
-                    fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                    fontWeight: 800,
-                    letterSpacing: "0.05em",
-                    lineHeight: 1,
-                    background: "linear-gradient(90deg, var(--color-cyan) 0%, var(--color-purple) 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent"
-                  }} className="text-glow-purple">
-                    AI & DATA SCIENCE
-                  </h3>
-                </div>
-
-                {/* Rotating Skills Text Animation */}
-                <SkillsRotator />
-
-                {/* Technology Badges (Inspired by Ai Ps Id reference style but for Data/AI) */}
-                <div className="tech-badge-container" style={{ marginBottom: "36px" }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <div className="tech-square-badge py">Py</div>
-                    <span className="tech-badge-label">Python</span>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <div className="tech-square-badge sql">SQL</div>
-                    <span className="tech-badge-label">Database</span>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <div className="tech-square-badge bi">BI</div>
-                    <span className="tech-badge-label">Power BI</span>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <div className="tech-square-badge ai">AI</div>
-                    <span className="tech-badge-label">Gen AI</span>
-                  </div>
-                </div>
-
-                {/* Primary Button Options */}
-                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                  <button
-                    onClick={() => triggerScrollTo("projects")}
-                    style={{
-                      background: "var(--grad-primary)", border: "none", color: "#fff",
-                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 700,
-                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
-                      fontSize: "0.9rem", boxShadow: "0 10px 20px -10px rgba(0, 242, 254, 0.4)",
-                      transition: "all 0.3s"
-                    }}
-                    className="hover-glow"
-                  >
-                    <span>View Projects</span>
-                    <ArrowRight size={16} />
+                <div className="hero-actions">
+                  <button onClick={() => triggerScrollTo("skills")} className="primary-button">
+                    Explore Skills
+                    <ArrowRight size={18} />
                   </button>
-
                   <a
                     href="/Anubhuti_Pal_Resume.pdf"
                     download="Anubhuti_Pal_Resume.pdf"
                     target="_blank"
                     rel="noreferrer"
-                    style={{
-                      background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)", color: "#fff",
-                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 600,
-                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
-                      fontSize: "0.9rem", transition: "all 0.3s", textDecoration: "none"
-                    }}
-                    className="hover-glow"
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--color-cyan)"}
-                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border-color)"}
+                    className="secondary-button"
                   >
-                    <Download size={16} style={{ color: "var(--color-cyan)" }} />
-                    <span>Download Resume</span>
+                    Download Resume
                   </a>
+                </div>
 
-                  <button
-                    onClick={() => triggerScrollTo("contact")}
-                    style={{
-                      background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)", color: "#fff",
-                      borderRadius: "9999px", padding: "14px 28px", fontWeight: 600,
-                      cursor: "pointer", display: "flex", alignItems: "center", gap: "8px",
-                      fontSize: "0.9rem", transition: "all 0.3s"
-                    }}
-                    className="hover-glow"
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--color-cyan)"}
-                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border-color)"}
-                  >
-                    <span>Contact Me</span>
-                  </button>
+                <div className="hero-quickstats">
+                  <div>
+                    <span>Business Intelligence</span>
+                    <strong>Power BI + Tableau</strong>
+                  </div>
+                  <div>
+                    <span>Data Strategy</span>
+                    <strong>EDA, Cleaning, Reporting</strong>
+                  </div>
                 </div>
               </div>
             </FadeIn>
 
-            {/* Premium 3D Portrait Showcase (Right Side) */}
-            <FadeIn delay={0.3} style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
-              <div style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                perspective: "1200px",
-                width: "100%",
-                position: "relative"
-              }}>
-                {/* Ambient Glowing Background Layers */}
-                <div style={{
-                  position: "absolute",
-                  width: "80%",
-                  height: "80%",
-                  background: "radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(127, 0, 255, 0.15) 100%)",
-                  filter: "blur(80px)",
-                  borderRadius: "50%",
-                  zIndex: 0,
-                  pointerEvents: "none",
-                  transform: "translateZ(-50px)"
-                }} />
-
-                <div style={{
-                  position: "absolute",
-                  width: "50%",
-                  height: "50%",
-                  background: "var(--color-cyan)",
-                  filter: "blur(100px)",
-                  borderRadius: "50%",
-                  zIndex: 0,
-                  pointerEvents: "none",
-                  left: "15%",
-                  top: "15%",
-                  opacity: 0.25,
-                  transform: "translateZ(-80px)"
-                }} />
-
-                {/* Main 3D Card Wrapper */}
-                <motion.div
-                  onMouseMove={handleVideoMouseMove}
-                  onMouseLeave={handleVideoMouseLeave}
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                  whileHover={{ scale: 1.02 }}
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    maxWidth: "400px",
-                    aspectRatio: "3/4",
-                    transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateZ(0px)`,
-                    transformStyle: "preserve-3d",
-                    transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
-                    borderRadius: "28px",
-                    border: "1px solid rgba(0, 242, 254, 0.24)",
-                    boxShadow: `
-                      0 30px 70px -20px rgba(0, 0, 0, 0.65),
-                      0 0 70px -20px rgba(0, 242, 254, 0.18),
-                      inset 0 1px 0 0 rgba(255, 255, 255, 0.12)
-                    `,
-                    background: "rgba(10, 15, 30, 0.55)",
-                    backdropFilter: "blur(18px)",
-                    WebkitBackdropFilter: "blur(18px)",
-                    overflow: "hidden",
-                    zIndex: 2
-                  }}
-                  className="holo-card-container"
-                >
-                  {/* Portrait Image */}
-                  <div style={{ width: "100%", height: "100%", overflow: "hidden", borderRadius: "28px" }}>
-                    <img
-                      src="/photo.jpg"
-                      alt="Personal portrait"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block"
-                      }}
-                    />
+            <FadeIn delay={0.3}>
+              <div className="hero-visual-card glass-panel">
+                <div className="hero-visual-top">
+                  <div>
+                    <span className="visual-chip">Insight Dashboard</span>
+                    <h3>Executive analytics snapshot</h3>
                   </div>
+                  <span className="visual-badge">Live</span>
+                </div>
 
-                  {/* Holographic Overlays */}
-                  <div className="holo-grid" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.45 }} />
-                  <div className="holo-scanlines" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.2 }} />
-                  <div className="holo-reflection" style={{ borderRadius: "28px", pointerEvents: "none", opacity: 0.4 }} />
+                <div className="chart-preview">
+                  <div className="chart-bar" style={{ width: "82%" }} />
+                  <div className="chart-bar accent" style={{ width: "64%" }} />
+                  <div className="chart-bar" style={{ width: "91%" }} />
+                  <div className="chart-bar accent" style={{ width: "54%" }} />
+                </div>
 
-                  {/* Moving Light Flare */}
-                  <div
-                    className="light-flare"
-                    style={{
-                      left: `${mousePos.x}%`,
-                      top: `${mousePos.y}%`,
-                      transform: "translate(-50%, -50%)",
-                      opacity: 0.75
-                    }}
-                  />
-                </motion.div>
+                <div className="visual-stats-grid">
+                  <div className="visual-stat-card">
+                    <span>Data pipelines</span>
+                    <strong>8 connected sources</strong>
+                  </div>
+                  <div className="visual-stat-card">
+                    <span>Monthly reports</span>
+                    <strong>5 dashboards</strong>
+                  </div>
+                </div>
               </div>
             </FadeIn>
-
           </div>
         </section>
 
@@ -1448,108 +1290,132 @@ export default function App() {
 
 
         {/* ── TECHNICAL SKILLS SECTION ── */}
-        <section id="skills" style={{ padding: "100px 0", background: "rgba(13, 17, 34, 0.15)" }}>
+        <section id="skills" className="skills-section">
           <div className="container-max">
 
-            <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 60px" }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
-                <span style={{ textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--color-cyan)", fontWeight: 700 }}>Expertise Matrix</span>
-                <div style={{ width: "20px", height: "2px", background: "var(--grad-primary)" }} />
-              </div>
-              <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "16px" }}>
-                Technical Skillsets
-              </h2>
-              <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
-                My technical capabilities across programming, analytics, dashboard creation, libraries, and developer tools.
-              </p>
+            <div className="section-heading" style={{ marginBottom: "48px" }}>
+              <span className="section-label">Technical Skillsets</span>
+              <h2>Data Analytics & Tools</h2>
+              <p>Five modern skill categories showing core programming, analytics, visualization, libraries, and tools with a polished dark theme.</p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px" }}>
-              {/* Category 1: Programming Languages */}
-              <FadeIn delay={0.1} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(0, 242, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
-                  <Terminal size={20} style={{ color: "var(--color-cyan)", margin: "0 auto" }} />
-                </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Programming Languages</h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  {[
-                    { name: "Python", prof: "90%" },
-                    { name: "SQL", prof: "85%" }
-                  ].map((s, i) => (
-                    <div key={i}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", marginBottom: "4px" }}>
-                        <span>{s.name}</span>
-                        <span style={{ color: "var(--color-cyan)" }}>{s.prof}</span>
-                      </div>
-                      <div style={{ background: "rgba(255,255,255,0.05)", height: "4px", borderRadius: "2px" }}>
-                        <div style={{ background: "var(--grad-primary)", height: "100%", width: s.prof, borderRadius: "2px" }} />
-                      </div>
+            <div className="skill-cards">
+              <FadeIn delay={0.1}>
+                <article className="skill-card">
+                  <div className="skill-card-header">
+                    <div className="skill-card-icon">
+                      <Terminal size={20} />
                     </div>
-                  ))}
-                </div>
+                    <div>
+                      <h3>Programming Languages</h3>
+                      <p>Code-first analytics for strong model pipelines.</p>
+                    </div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>Python</span>
+                      <span className="skill-level">Advanced</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill" style={{ width: "92%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>SQL</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "74%" }} /></div>
+                  </div>
+                </article>
               </FadeIn>
 
-              {/* Category 2: Data Analytics */}
-              <FadeIn delay={0.2} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(79, 172, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
-                  <Database size={20} style={{ color: "var(--color-blue)", margin: "0 auto" }} />
-                </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Data Analytics</h3>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                  {["Data Analysis", "Exploratory Data Analysis (EDA)", "Statistical Analysis", "Insight Generation", "Business Intelligence"].map((s, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-blue)" }} />
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                </ul>
+              <FadeIn delay={0.2}>
+                <article className="skill-card">
+                  <div className="skill-card-header">
+                    <div className="skill-card-icon">
+                      <Database size={20} />
+                    </div>
+                    <div>
+                      <h3>Data Analytics</h3>
+                      <p>From raw datasets to actionable business insights.</p>
+                    </div>
+                  </div>
+                  <ul className="skill-card-list">
+                    <li>Data Cleaning</li>
+                    <li>Data Analysis</li>
+                    <li>Exploratory Data Analysis (EDA)</li>
+                    <li>Statistical Analysis</li>
+                    <li>Feature Engineering</li>
+                    <li>Data Preprocessing</li>
+                    <li>Business Intelligence</li>
+                    <li>Insight Generation</li>
+                  </ul>
+                </article>
               </FadeIn>
 
-              {/* Category 3: Visualization Tools */}
-              <FadeIn delay={0.3} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(127, 0, 255, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
-                  <BarChart3 size={20} style={{ color: "var(--color-purple)", margin: "0 auto" }} />
-                </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Visualization Tools</h3>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                  {["Power BI", "Tableau", "Excel Dashboards", "KPI Reporting"].map((s, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-purple)" }} />
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                </ul>
+              <FadeIn delay={0.3}>
+                <article className="skill-card">
+                  <div className="skill-card-header">
+                    <div className="skill-card-icon">
+                      <BarChart3 size={20} />
+                    </div>
+                    <div>
+                      <h3>Visualization Tools</h3>
+                      <p>Professional dashboards and reporting workflows.</p>
+                    </div>
+                  </div>
+                  <ul className="skill-card-list">
+                    <li>Power BI</li>
+                    <li>Tableau</li>
+                    <li>Excel Dashboards</li>
+                    <li>Matplotlib</li>
+                    <li>KPI Reporting</li>
+                  </ul>
+                </article>
               </FadeIn>
 
-              {/* Category 4: Libraries */}
-              <FadeIn delay={0.4} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(0, 242, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
-                  <Cpu size={20} style={{ color: "var(--color-cyan)", margin: "0 auto" }} />
-                </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Libraries</h3>
-                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                  {["Pandas", "NumPy", "Matplotlib", "Scikit-Learn"].map((t, i) => (
-                    <span key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-color)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              <FadeIn delay={0.4}>
+                <article className="skill-card">
+                  <div className="skill-card-header">
+                    <div className="skill-card-icon">
+                      <Cpu size={20} />
+                    </div>
+                    <div>
+                      <h3>Libraries</h3>
+                      <p>Core Python libraries for data science and modeling.</p>
+                    </div>
+                  </div>
+                  <ul className="skill-card-list">
+                    <li>Pandas</li>
+                    <li>NumPy</li>
+                    <li>Matplotlib</li>
+                    <li>Seaborn</li>
+                    <li>Scikit-Learn</li>
+                    <li>Plotly</li>
+                  </ul>
+                </article>
               </FadeIn>
 
-              {/* Category 5: Tools */}
-              <FadeIn delay={0.5} className="glass-panel" style={{ padding: "24px", textAlign: "left" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(79, 172, 254, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
-                  <Settings size={20} style={{ color: "var(--color-blue)", margin: "0 auto" }} />
-                </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "12px", color: "#fff" }}>Tools</h3>
-                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                  {["Excel", "Streamlit", "GitHub", "Power BI", "Tableau"].map((t, i) => (
-                    <span key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-color)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              <FadeIn delay={0.5}>
+                <article className="skill-card">
+                  <div className="skill-card-header">
+                    <div className="skill-card-icon">
+                      <Settings size={20} />
+                    </div>
+                    <div>
+                      <h3>Tools</h3>
+                      <p>Professional workflow tools for analytics delivery.</p>
+                    </div>
+                  </div>
+                  <ul className="skill-card-list">
+                    <li>Microsoft Excel</li>
+                    <li>Power BI</li>
+                    <li>Tableau</li>
+                    <li>Streamlit</li>
+                    <li>GitHub</li>
+                    <li>Jupyter Notebook</li>
+                    <li>VS Code</li>
+                  </ul>
+                </article>
               </FadeIn>
             </div>
 
