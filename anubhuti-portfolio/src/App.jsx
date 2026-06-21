@@ -1272,8 +1272,8 @@ export default function App() {
                       <Terminal size={20} />
                     </div>
                     <div>
-                      <h3>Programming Languages</h3>
-                      <p>Code-first analytics for strong model pipelines.</p>
+                      <h3>Programming Languages & AI</h3>
+                      <p>Core analytics, ML, and AI skillsets for data-driven insights.</p>
                     </div>
                   </div>
                   <div className="skill-progress-group">
@@ -1289,6 +1289,20 @@ export default function App() {
                       <span className="skill-level">Intermediate</span>
                     </div>
                     <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "74%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>Machine Learning</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "76%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>Artificial Intelligence</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "78%" }} /></div>
                   </div>
                 </article>
               </FadeIn>
