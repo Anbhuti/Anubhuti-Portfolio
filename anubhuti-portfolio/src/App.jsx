@@ -1043,12 +1043,10 @@ export default function App() {
           <div className="container-max hero-layout" style={{ position: "relative", zIndex: 2 }}>
             <FadeIn delay={0.15}>
               <div className="hero-copy">
-                <span className="hero-pill">Aspiring Data Analyst</span>
                 <h1 className="hero-title">ANUBHUTI PAL</h1>
-                <p className="hero-subtitle">AI & Data Science</p>
-                <p className="hero-text">
-                  Crafting modern analytics experiences with clean dashboards, structured data workflows, and AI-powered insight generation.
-                </p>
+                <p className="hero-subtitle hero-role">Aspiring Data Analyst | AI & Data Science</p>
+
+                <SkillsRotator />
 
                 <div className="hero-actions">
                   <button onClick={() => triggerScrollTo("skills")} className="primary-button">
@@ -1065,46 +1063,13 @@ export default function App() {
                     Download Resume
                   </a>
                 </div>
-
-                <div className="hero-quickstats">
-                  <div>
-                    <span>Business Intelligence</span>
-                    <strong>Power BI + Tableau</strong>
-                  </div>
-                  <div>
-                    <span>Data Strategy</span>
-                    <strong>EDA, Cleaning, Reporting</strong>
-                  </div>
-                </div>
               </div>
             </FadeIn>
 
             <FadeIn delay={0.3}>
-              <div className="hero-visual-card glass-panel">
-                <div className="hero-visual-top">
-                  <div>
-                    <span className="visual-chip">Insight Dashboard</span>
-                    <h3>Executive analytics snapshot</h3>
-                  </div>
-                  <span className="visual-badge">Live</span>
-                </div>
-
-                <div className="chart-preview">
-                  <div className="chart-bar" style={{ width: "82%" }} />
-                  <div className="chart-bar accent" style={{ width: "64%" }} />
-                  <div className="chart-bar" style={{ width: "91%" }} />
-                  <div className="chart-bar accent" style={{ width: "54%" }} />
-                </div>
-
-                <div className="visual-stats-grid">
-                  <div className="visual-stat-card">
-                    <span>Data pipelines</span>
-                    <strong>8 connected sources</strong>
-                  </div>
-                  <div className="visual-stat-card">
-                    <span>Monthly reports</span>
-                    <strong>5 dashboards</strong>
-                  </div>
+              <div className="hero-image-card glass-panel float-anim">
+                <div className="image-frame">
+                  <img src="/profile.jpg" alt="Anubhuti Pal profile" />
                 </div>
               </div>
             </FadeIn>

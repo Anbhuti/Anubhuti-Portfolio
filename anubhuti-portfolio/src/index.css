@@ -537,13 +537,84 @@ a {
   line-height: 1.4;
 }
 
-.hero-visual-card {
-  padding: 32px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.32);
-  background: rgba(13, 17, 34, 0.78);
-  backdrop-filter: blur(20px);
+.hero-image-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px;
+  border-radius: 32px;
+  border: 1px solid rgba(79, 172, 254, 0.18);
+  box-shadow: 0 25px 80px rgba(18, 52, 88, 0.35), 0 0 80px rgba(79, 172, 254, 0.12);
+  background: rgba(11, 14, 26, 0.84);
+  backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 34px;
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), transparent 35%, rgba(127, 0, 255, 0.18));
+  mask: linear-gradient(#fff 0 0);
+  pointer-events: none;
+}
+
+.hero-image-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  box-shadow: inset 0 0 60px rgba(0, 242, 254, 0.12), inset 0 0 100px rgba(127, 0, 255, 0.08);
+  pointer-events: none;
+}
+
+.image-frame {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 4 / 5;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(180deg, rgba(36, 45, 66, 0.95), rgba(10, 14, 28, 0.6));
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hero-subtitle.hero-role {
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  margin-bottom: 32px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--color-cyan), var(--color-blue), var(--color-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  line-height: 0.92;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 14px;
+  letter-spacing: -0.05em;
+}
+
+.hero-image-card.float-anim {
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-title,
+.hero-subtitle.hero-role {
+  text-shadow: 0 0 12px rgba(0, 242, 254, 0.18), 0 0 28px rgba(127, 0, 255, 0.12);
 }
 
 .hero-visual-top {
