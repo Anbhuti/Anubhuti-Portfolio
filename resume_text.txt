@@ -29,12 +29,6 @@ February 2026 – May 2026
 - Compared models including Linear Regression and Random Forest to identify the best performer.
 - Implemented SQL-based data pipelines for preprocessing, transformation, and storage.
 
-Netflix Content Analysis | Python, pandas, Matplotlib
-November 2025
-- Cleaned and analyzed a Netflix dataset of 8,000+ records.
-- Performed exploratory data analysis to study genre, rating, and content trends.
-- Created visualizations for movie vs TV show ratio, top genres, and yearly content growth.
-
 Online Retail Sales Analysis | Excel, Python, SQL, Tableau Public
 December 2025 – January 2026
 - Evaluated 7,000+ retail transactions to assess sales performance and customer behavior.
@@ -42,6 +36,14 @@ December 2025 – January 2026
 - Calculated KPIs including total revenue, order counts, and average order value.
 - Wrote SQL queries to identify monthly trends, top products, and regional performance.
 - Published an interactive Tableau dashboard with multiple analytical views.
+
+Safe Guard Pro | Python, React, Scikit-learn, Joblib, Leaflet, TensorFlow, XG Boost, SHAP                                     
+May 2026     – June2026   
+•	Developed an AI-based crime prediction system using ML achieving 85% accuracy on 100K+ crime records
+•	Performed data preprocessing and feature engineering using Pandas, NumPy, and Scikit-learn.
+•	Integrated ML model using Joblib and created APIs (/predict, /map-data).
+•	Visualized crime-prone areas using Leaflet maps and Recharts dashboards.
+•	Built a full-stack application using React and Flask with real-time prediction via REST APIs.
 
 Certifications
 - Data Analytics Job Simulation – Deloitte (2025)
@@ -52,7 +54,7 @@ Certifications
 
 Education
 Master of Computer Application (Data Science & AI)
-Babu Banarasi Das University, Lucknow | 2024–2026 | 69.3%
+Babu Banarasi Das University, Lucknow | 2024–2026 | 73.4%
 
 Bachelor of Computer Application
 Ambalika Institute of Higher Education, Lucknow | 2021–2024 | 71.7%
