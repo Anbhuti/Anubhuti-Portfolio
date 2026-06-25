@@ -1,0 +1,58 @@
+--- Page 1 ---
+ANUBHUTI PAL
+Portfolio: https://my-websitee-q63x.onrender.com
+Email: palanubhuti2707@gmail.com
+LinkedIn: https://www.linkedin.com/in/anubhuti-pal-117886232
+Phone: +91 95696 42618
+GitHub: https://github.com/Anbhuti
+
+Summary
+MCA (Data Science & AI) candidate with hands-on experience in Python, SQL, Power BI, and data analytics. Strong analytical problem-solving skills with a focus on business intelligence, reporting, and client-driven insights.
+
+Skills
+Technical: Python, SQL, Excel, Power BI, Tableau, Machine Learning, Artificial Intelligence
+Data Analysis: Exploratory Data Analysis (EDA), statistical analysis, data visualization, KPI reporting, dashboard creation, PivotTables
+Libraries: pandas, NumPy, Matplotlib, scikit-learn
+Tools: Streamlit, GitHub, Microsoft Word, Advanced Excel
+
+Experience
+Data Analytics Virtual Intern | Deloitte – Forage (Virtual)
+June 2025 – July 2025 | Tools: Excel, SQL, Power BI
+- Analyzed datasets using Excel and SQL to identify trends and generate actionable insights.
+- Developed interactive dashboards and reports in Power BI for data visualization.
+- Presented insights to support business decision-making.
+
+Projects
+Retail Food Price Analysis and Prediction | Python, Streamlit, SQL
+February 2026 – May 2026
+- Built an end-to-end machine learning solution to analyze market trends and predict pricing outcomes.
+- Compared models including Linear Regression and Random Forest to identify the best performer.
+- Implemented SQL-based data pipelines for preprocessing, transformation, and storage.
+
+Netflix Content Analysis | Python, pandas, Matplotlib
+November 2025
+- Cleaned and analyzed a Netflix dataset of 8,000+ records.
+- Performed exploratory data analysis to study genre, rating, and content trends.
+- Created visualizations for movie vs TV show ratio, top genres, and yearly content growth.
+
+Online Retail Sales Analysis | Excel, Python, SQL, Tableau Public
+December 2025 – January 2026
+- Evaluated 7,000+ retail transactions to assess sales performance and customer behavior.
+- Analyzed data for 2,700+ unique customers across multiple countries.
+- Calculated KPIs including total revenue, order counts, and average order value.
+- Wrote SQL queries to identify monthly trends, top products, and regional performance.
+- Published an interactive Tableau dashboard with multiple analytical views.
+
+Certifications
+- Data Analytics Job Simulation – Deloitte (2025)
+- AI Analyst – IBM (2025)
+- Machine Learning with Python – IBM (2025)
+- Python for Data Science – IBM (2025)
+- NoSQL & DBaaS – IBM (2025)
+
+Education
+Master of Computer Application (Data Science & AI)
+Babu Banarasi Das University, Lucknow | 2024–2026 | 69.3%
+
+Bachelor of Computer Application
+Ambalika Institute of Higher Education, Lucknow | 2021–2024 | 71.7%
