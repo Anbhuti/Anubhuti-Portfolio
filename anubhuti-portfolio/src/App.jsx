@@ -879,6 +879,22 @@ export default function App() {
         "Designed an intuitive Streamlit interface for URL-based video fetching.",
         "Incorporated robust error handling for network requests and download automation."
       ]
+    },
+    {
+      num: "04",
+      type: "AI & MACHINE LEARNING",
+      name: "Safe Guard Pro – AI Crime Prediction System",
+      tech: ["Python", "React", "Flask", "Scikit-learn", "TensorFlow", "XGBoost", "SHAP", "Joblib", "Leaflet"],
+      github: "https://github.com/Anbhuti/Safeguard-Pro",
+      desc: "Developed an AI-powered crime prediction and hotspot analysis platform that identifies crime-prone areas using machine learning and interactive geospatial visualization.",
+      highlights: [
+        "Developed a crime prediction model achieving approximately 85% accuracy on 100K+ crime records.",
+        "Performed data preprocessing, feature engineering, and model training using Pandas, NumPy, and Scikit-learn.",
+        "Integrated machine learning models using Joblib and created REST APIs for real-time predictions.",
+        "Visualized crime hotspots through interactive Leaflet maps and analytical dashboards.",
+        "Built a full-stack application using React and Flask with real-time prediction capabilities.",
+        "Implemented explainable AI techniques using SHAP to improve model transparency and interpretability."
+      ]
     }
   ];
 
@@ -1423,7 +1439,7 @@ export default function App() {
           <div className="container-max" style={{ display: "flex", flexDirection: "column", gap: "0px", position: "relative" }}>
             {projectsData.map((project, index) => (
               <ProjectCard
-                key={project.num}
+                key={`${project.num}-${index}`}
                 project={project}
                 index={index}
                 total={projectsData.length}
