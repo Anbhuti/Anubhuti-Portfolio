@@ -1308,6 +1308,27 @@ export default function App() {
                   </div>
                   <div className="skill-progress-group">
                     <div className="skill-progress-row">
+                      <span>Core Java</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "68%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>OOPs Concepts</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "72%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>Operating System</span>
+                      <span className="skill-level">Foundational</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "64%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
                       <span>Machine Learning</span>
                       <span className="skill-level">Intermediate</span>
                     </div>
@@ -1319,6 +1340,13 @@ export default function App() {
                       <span className="skill-level">Intermediate</span>
                     </div>
                     <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "78%" }} /></div>
+                  </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>AI Tools, APIs & JSON</span>
+                      <span className="skill-level">Intermediate</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "80%" }} /></div>
                   </div>
                 </article>
               </FadeIn>
@@ -1338,11 +1366,17 @@ export default function App() {
                     <li>Data Cleaning</li>
                     <li>Data Analysis</li>
                     <li>Exploratory Data Analysis (EDA)</li>
-                    <li>Statistical Analysis</li>
-                    <li>Feature Engineering</li>
-                    <li>Data Preprocessing</li>
-                    <li>Business Intelligence</li>
+                    <li>Revenue Tracking</li>
+                    <li>Business Analysis</li>
+                    <li>Predictive Analytics</li>
                     <li>Insight Generation</li>
+                    <li>Data Management</li>
+                    <li>ETL Concepts</li>
+                    <li>Reconciliation</li>
+                    <li>Process Improvement</li>
+                    <li>Automation</li>
+                    <li>Dashboard Reporting</li>
+                    <li>KPI Reporting</li>
                   </ul>
                 </article>
               </FadeIn>
@@ -1360,10 +1394,15 @@ export default function App() {
                   </div>
                   <ul className="skill-card-list">
                     <li>Power BI</li>
-                    <li>Tableau</li>
+                    <li>Dashboard</li>
+                    <li>KPI Reporting</li>
+                    <li>Advanced Excel</li>
+                    <li>VLOOKUP</li>
+                    <li>HLOOKUP</li>
+                    <li>XLOOKUP</li>
+                    <li>Pivot Tables</li>
                     <li>Excel Dashboards</li>
                     <li>Matplotlib</li>
-                    <li>KPI Reporting</li>
                   </ul>
                 </article>
               </FadeIn>
@@ -1384,7 +1423,9 @@ export default function App() {
                     <li>NumPy</li>
                     <li>Matplotlib</li>
                     <li>Seaborn</li>
-                    <li>Scikit-Learn</li>
+                    <li>Scikit-learn</li>
+                    <li>PyTorch</li>
+                    <li>OpenCV</li>
                     <li>Plotly</li>
                   </ul>
                 </article>
@@ -1403,12 +1444,15 @@ export default function App() {
                   </div>
                   <ul className="skill-card-list">
                     <li>Microsoft Excel</li>
+                    <li>MS Office</li>
                     <li>Power BI</li>
                     <li>Tableau</li>
                     <li>Streamlit</li>
                     <li>GitHub</li>
-                    <li>Jupyter Notebook</li>
                     <li>VS Code</li>
+                    <li>Git</li>
+                    <li>Jupyter Notebook</li>
+                    <li>JSON</li>
                   </ul>
                 </article>
               </FadeIn>
