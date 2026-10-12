@@ -123,7 +123,7 @@ function App() {
           <article className="project-card glass-panel">
             <div className="project-card-top">
               <span className="project-badge">AI &amp; MACHINE LEARNING</span>
-              <span className="project-number">04</span>
+              <span className="project-number">06</span>
             </div>
             <h3>Safe Guard Pro – AI Crime Prediction System</h3>
             <p className="project-description">
@@ -150,6 +150,40 @@ function App() {
             </ul>
             <a
               href="https://github.com/Anbhuti/Safeguard-Pro"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary"
+            >
+              GitHub Repo
+            </a>
+          </article>
+
+          <article className="project-card glass-panel">
+            <div className="project-card-top">
+              <span className="project-badge">AI &amp; INDUSTRIAL ANALYTICS</span>
+              <span className="project-number">07</span>
+            </div>
+            <h3>INDUSTRIX AI – AI-Powered Industrial Analytics &amp; Predictive Maintenance</h3>
+            <p className="project-description">
+              Developing an AI-powered industrial analytics platform to analyze uploaded datasets and generate data-driven insights into machine health and equipment performance.
+            </p>
+            <ul className="project-tech">
+              <li>Python</li>
+              <li>Machine Learning</li>
+              <li>LLM (Gemini AI)</li>
+              <li>Scikit-learn</li>
+              <li>Pandas</li>
+              <li>NumPy</li>
+              <li>FastAPI</li>
+              <li>PostgreSQL</li>
+            </ul>
+            <ul className="project-highlights">
+              <li>Designing Machine Learning workflows for anomaly detection and predictive maintenance to identify unusual sensor patterns and potential equipment failures.</li>
+              <li>Integrating an LLM-powered AI copilot, NOVA, to interpret analytical results, answer natural-language questions, and explain industrial insights.</li>
+              <li>Building data-driven Root Cause Analysis (RCA) workflows to investigate potential machine issues and recommend corrective maintenance actions.</li>
+            </ul>
+            <a
+              href="https://github.com/Anbhuti/INDUSTRIX-AI"
               target="_blank"
               rel="noreferrer"
               className="btn-primary"

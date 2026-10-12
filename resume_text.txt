@@ -38,12 +38,20 @@ December 2025 – January 2026
 - Published an interactive Tableau dashboard with multiple analytical views.
 
 Safe Guard Pro | Python, React, Scikit-learn, Joblib, Leaflet, TensorFlow, XG Boost, SHAP                                     
-May 2026     – June2026   
+May 2026     – June 2026   
 •	Developed an AI-based crime prediction system using ML achieving 85% accuracy on 100K+ crime records
 •	Performed data preprocessing and feature engineering using Pandas, NumPy, and Scikit-learn.
 •	Integrated ML model using Joblib and created APIs (/predict, /map-data).
 •	Visualized crime-prone areas using Leaflet maps and Recharts dashboards.
 •	Built a full-stack application using React and Flask with real-time prediction via REST APIs.
+
+INDUSTRIX AI | Python, Machine Learning, LLM (Gemini AI), Scikit-learn, Pandas, NumPy, FastAPI, PostgreSQL
+July 2026 – Present
+•	Developing an AI-powered industrial analytics platform to analyze uploaded datasets and generate data-driven insights into machine health and equipment performance.
+•	Designing Machine Learning workflows for anomaly detection and predictive maintenance to identify unusual sensor patterns and potential equipment failures.
+•	Integrating an LLM-powered AI copilot, NOVA, to interpret analytical results, answer natural-language questions, and explain industrial insights.
+•	Building data-driven Root Cause Analysis (RCA) workflows to investigate potential machine issues and recommend corrective maintenance actions.
+•	GitHub: https://github.com/Anbhuti/INDUSTRIX-AI
 
 Certifications
 - Data Analytics Job Simulation – Deloitte (2025)

@@ -479,7 +479,7 @@ function ProjectCard({ project, index, total, scrollRef }) {
       >
         {/* Card Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px", flexWrap: "wrap", gap: "16px" }}>
-          <div>
+          <div style={{ flex: "1 1 320px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "6px" }}>
               <span style={{ fontSize: "0.8rem", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700, color: "var(--color-cyan)", border: "1px solid rgba(0, 242, 254, 0.3)", borderRadius: "99px", padding: "2px 10px" }}>
                 {project.type}
@@ -489,7 +489,7 @@ function ProjectCard({ project, index, total, scrollRef }) {
             <h3 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.2rem)", fontWeight: 800, color: "#fff", lineHeight: 1.1 }}>{project.name}</h3>
           </div>
 
-          <div style={{ display: "flex", gap: "12px" }}>
+          <div style={{ display: "flex", gap: "12px", flexShrink: 0 }}>
             {project.github && (
               <a
                 href={project.github}
@@ -881,7 +881,7 @@ export default function App() {
       ]
     },
     {
-      num: "04",
+      num: "06",
       type: "AI & MACHINE LEARNING",
       name: "Safe Guard Pro – AI Crime Prediction System",
       tech: ["Python", "React", "Flask", "Scikit-learn", "TensorFlow", "XGBoost", "SHAP", "Joblib", "Leaflet"],
@@ -894,6 +894,19 @@ export default function App() {
         "Visualized crime hotspots through interactive Leaflet maps and analytical dashboards.",
         "Built a full-stack application using React and Flask with real-time prediction capabilities.",
         "Implemented explainable AI techniques using SHAP to improve model transparency and interpretability."
+      ]
+    },
+    {
+      num: "07",
+      type: "AI & Industrial Analytics",
+      name: "INDUSTRIX AI – AI-Powered Industrial Analytics & Predictive Maintenance",
+      tech: ["Python", "Machine Learning", "LLM (Gemini AI)", "Scikit-learn", "Pandas", "NumPy", "FastAPI", "PostgreSQL"],
+      github: "https://github.com/Anbhuti/INDUSTRIX-AI",
+      desc: "Developing an AI-powered industrial analytics platform to analyze uploaded datasets and generate data-driven insights into machine health and equipment performance.",
+      highlights: [
+        "Designing Machine Learning workflows for anomaly detection and predictive maintenance to identify unusual sensor patterns and potential equipment failures.",
+        "Integrating an LLM-powered AI copilot, NOVA, to interpret analytical results, answer natural-language questions, and explain industrial insights.",
+        "Building data-driven Root Cause Analysis (RCA) workflows to investigate potential machine issues and recommend corrective maintenance actions."
       ]
     }
   ];
