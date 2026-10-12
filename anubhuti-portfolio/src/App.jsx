@@ -785,6 +785,30 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState({ type: "", message: "" });
 
+  const handleDownloadResume = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+      const response = await fetch("/Anubhuti_Pal.pdf");
+      if (!response.ok) throw new Error("File fetch failed");
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "Anubhuti_Pal.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
+    } catch (err) {
+      const fallbackLink = document.createElement("a");
+      fallbackLink.href = "/Anubhuti_Pal.pdf";
+      fallbackLink.setAttribute("download", "Anubhuti_Pal.pdf");
+      document.body.appendChild(fallbackLink);
+      fallbackLink.click();
+      document.body.removeChild(fallbackLink);
+    }
+  };
+
   const handleVideoMouseMove = (e) => {
     if (introActive) return; // Disable tilt during fullscreen intro
     const rect = e.currentTarget.getBoundingClientRect();
@@ -1062,6 +1086,24 @@ export default function App() {
                   </button>
                 );
               })}
+              <a
+                href="/Anubhuti_Pal.pdf"
+                download="Anubhuti_Pal.pdf"
+                onClick={handleDownloadResume}
+                className="secondary-button"
+                style={{
+                  padding: "6px 14px",
+                  fontSize: "0.8rem",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  cursor: "pointer",
+                  borderRadius: "9999px"
+                }}
+              >
+                <Download size={14} />
+                <span>Resume</span>
+              </a>
             </nav>
           </div>
         </header>
@@ -1083,12 +1125,13 @@ export default function App() {
                     <ArrowRight size={18} />
                   </button>
                   <a
-                    href="/Anubhuti_Pal_Resume.pdf"
-                    download="Anubhuti_Pal_Resume.pdf"
-                    target="_blank"
-                    rel="noreferrer"
+                    href="/Anubhuti_Pal.pdf"
+                    download="Anubhuti_Pal.pdf"
+                    onClick={handleDownloadResume}
                     className="secondary-button"
+                    style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "8px" }}
                   >
+                    <Download size={18} />
                     Download Resume
                   </a>
                 </div>
@@ -1167,7 +1210,7 @@ export default function App() {
               </h2>
 
               <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", marginBottom: "28px", lineHeight: 1.65 }}>
-                I am an MCA (Data Science & AI) Student with a strong passion for Data Analytics, Business Intelligence, Data Visualization, and Machine Learning. I enjoy transforming raw data into actionable insights and building data-driven solutions that help businesses make informed decisions.
+                Recent MCA graduate (Data Science & AI) with hands-on experience using AI coding agents like ChatGPT and Claude for prompt engineering and workflow automation. Skilled in Python, SQL, Git, and GitHub, with experience building and shipping end-to-end projects, integrating APIs, and explaining technical decisions.
               </p>
 
 
@@ -1361,6 +1404,13 @@ export default function App() {
                     </div>
                     <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "80%" }} /></div>
                   </div>
+                  <div className="skill-progress-group">
+                    <div className="skill-progress-row">
+                      <span>Prompt Engineering & AI Agents</span>
+                      <span className="skill-level">Advanced</span>
+                    </div>
+                    <div className="skill-progress-track"><div className="skill-progress-fill accent" style={{ width: "88%" }} /></div>
+                  </div>
                 </article>
               </FadeIn>
 
@@ -1410,6 +1460,7 @@ export default function App() {
                     <li>Dashboard</li>
                     <li>KPI Reporting</li>
                     <li>Advanced Excel</li>
+                    <li>Google Sheets</li>
                     <li>VLOOKUP</li>
                     <li>HLOOKUP</li>
                     <li>XLOOKUP</li>
@@ -1456,15 +1507,17 @@ export default function App() {
                     </div>
                   </div>
                   <ul className="skill-card-list">
+                    <li>AI Coding Agents (ChatGPT, Claude)</li>
+                    <li>Prompt Engineering</li>
                     <li>Microsoft Excel</li>
+                    <li>Google Sheets</li>
                     <li>MS Office</li>
                     <li>Power BI</li>
                     <li>Tableau</li>
                     <li>Streamlit</li>
-                    <li>GitHub</li>
+                    <li>GitHub & Git Workflows</li>
                     <li>VS Code</li>
-                    <li>Git</li>
-                    <li>Jupyter Notebook</li>
+                    <li>API Integration</li>
                     <li>JSON</li>
                   </ul>
                 </article>
@@ -1527,7 +1580,7 @@ export default function App() {
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginTop: "4px" }}>Master of Computer Applications (Data Science & AI)</h3>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", margin: "2px 0 6px" }}>Babu Banarasi Das University, Lucknow</p>
                   <div style={{ display: "inline-block", background: "rgba(255,255,255,0.03)", padding: "2px 10px", borderRadius: "6px", fontSize: "0.8rem", color: "var(--color-cyan)" }}>
-                    Percentage Score: <strong>69.3%</strong>
+                    Percentage Score: <strong>73.4%</strong>
                   </div>
                 </div>
 
@@ -1624,7 +1677,7 @@ export default function App() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                     <a
-                      href="mailto:palanubhuti2707@gmail.com"
+                      href="mailto:anubhutipal1002@gmail.com"
                       style={{
                         width: "40px", height: "40px", borderRadius: "50%",
                         background: "rgba(0, 242, 254, 0.06)", display: "flex",
@@ -1638,7 +1691,7 @@ export default function App() {
                     </a>
                     <div>
                       <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase" }}>Email Address</span>
-                      <a href="mailto:palanubhuti2707@gmail.com" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">palanubhuti2707@gmail.com</a>
+                      <a href="mailto:anubhutipal1002@gmail.com" style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 500 }} className="hover-glow">anubhutipal1002@gmail.com</a>
                     </div>
                   </div>
 
@@ -1730,7 +1783,7 @@ export default function App() {
                     setIsSubmitting(true);
                     setFormStatus({ type: "", message: "" });
                     try {
-                      const response = await fetch("https://formsubmit.co/ajax/palanubhuti2707@gmail.com", {
+                      const response = await fetch("https://formsubmit.co/ajax/anubhutipal1002@gmail.com", {
                         method: "POST",
                         headers: {
                           Accept: "application/json",
@@ -1834,7 +1887,18 @@ export default function App() {
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
               <a href="https://github.com/Anbhuti" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>GitHub Link</a>
               <a href="https://www.linkedin.com/in/anubhuti-pal-117886232" target="_blank" rel="noreferrer" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>LinkedIn Link</a>
-              <a href="mailto:palanubhuti2707@gmail.com" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Email Link</a>
+              <a href="mailto:anubhutipal1002@gmail.com" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"} onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}>Email Link</a>
+              <a
+                href="/Anubhuti_Pal.pdf"
+                download="Anubhuti_Pal.pdf"
+                onClick={handleDownloadResume}
+                style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s", display: "inline-flex", alignItems: "center", gap: "4px", cursor: "pointer" }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-cyan)"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}
+              >
+                <Download size={14} />
+                <span>Download Resume</span>
+              </a>
             </div>
 
             <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.05)", width: "100%", paddingTop: "20px", fontSize: "0.8rem", color: "var(--text-muted)" }}>

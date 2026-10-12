@@ -1,68 +1,48 @@
 --- Page 1 ---
-ANUBHUTI PAL
-Portfolio: https://my-websitee-q63x.onrender.com
-Email: palanubhuti2707@gmail.com
-LinkedIn: https://www.linkedin.com/in/anubhuti-pal-117886232
-Phone: +91 95696 42618
+Anubhuti Pal
+Portfolio: https://anubhuti-portfolio.onrender.com/
+Email: anubhutipal1002@gmail.com
+LinkedIn: http://www.linkedin.com/in/anubhuti-pal-117886232
+Phone: 9569642618
 GitHub: https://github.com/Anbhuti
 
 Summary
-MCA (Data Science & AI) candidate with hands-on experience in Python, SQL, Power BI, and data analytics. Strong analytical problem-solving skills with a focus on business intelligence, reporting, and client-driven insights.
+Recent MCA graduate (Data Science & AI) with hands-on experience using AI coding agents like ChatGPT and Claude for prompt engineering and workflow automation. Skilled in Python, SQL, Git, and GitHub, with experience building and shipping end-to-end projects, integrating APIs, and following structured Git and pull-request workflows. Comfortable taking loosely defined problems, working independently in a remote environment, and explaining the reasoning behind technical decisions.
 
 Skills
-Technical: Python, SQL, Excel, Power BI, Tableau, Machine Learning, Artificial Intelligence
-Data Analysis: Exploratory Data Analysis (EDA), statistical analysis, data visualization, KPI reporting, dashboard creation, PivotTables
-Libraries: pandas, NumPy, Matplotlib, scikit-learn
-Tools: Streamlit, GitHub, Microsoft Word, Advanced Excel
+Technology Stack: Python, SQL, Core JAVA, OOPs Concepts, Operating System, Machine Learning, Artificial Intelligence, MS office, Streamlit, JSON, AI Tools, Prompt Engineering, APIs, R
+Libraries/Frameworks: Pandas, NumPy, Matplotlib, Scikit-learn, PyTorch, OpenCV
+Data Visualization Tools: Advanced Excel, VLOOKUP, HLOOKUP, XLOOKUP, Pivot Tables, Power BI, Dashboard, KPI Reporting, Google Sheets
+Development Tools: GitHub, VS Code, Git, Pull Request Workflows, Open-Source Contribution, AI Coding Agents (ChatGPT, Claude), API Integration
+Administrative Skills: Data Entry, Database Management, Digital Record-Keeping, Data Verification & Discrepancy Resolution, Documentation Procedures, Data Integrity, Data Backup & Recovery, Data Clean-up, Typing Accuracy & Speed, Report Generation
+Analytical Abilities: Data Analysis, Exploratory Data Analysis (EDA), Data Validation, Business Analysis, Predictive Analytics, Insight Generation, Data Management, ETL Concepts, Trend Analysis, Anomaly Detection, Root-Cause Analysis, Reporting
 
 Experience
-Data Analytics Virtual Intern | Deloitte – Forage (Virtual)
-June 2025 – July 2025 | Tools: Excel, SQL, Power BI
-- Analyzed datasets using Excel and SQL to identify trends and generate actionable insights.
-- Developed interactive dashboards and reports in Power BI for data visualization.
-- Presented insights to support business decision-making.
+Generative AI Virtual Intern | February 2026 – March 2026
+IBM Developer Skills Network (Virtual) | Tools Used: Generative AI, Prompt Engineering, IBM Skills Network
+• Learned prompt engineering techniques and AI-assisted problem-solving workflows.
+• Explored the use of AI tools to improve productivity, content generation, and business use cases.
 
 Projects
-Retail Food Price Analysis and Prediction | Python, Streamlit, SQL
-February 2026 – May 2026
-- Built an end-to-end machine learning solution to analyze market trends and predict pricing outcomes.
-- Compared models including Linear Regression and Random Forest to identify the best performer.
-- Implemented SQL-based data pipelines for preprocessing, transformation, and storage.
+INDUSTRIX AI – AI-Powered Industrial Analytics & Predictive Maintenance | Python, Machine Learning, LLM (Gemini AI), Scikit-learn, Pandas, NumPy, Fast API, PostgreSQL | September 2026 – October 2026
+• Developing an AI-powered industrial analytics platform to analyze uploaded datasets and generate data-driven insights into machine health and equipment performance.
+• Integrating an LLM-powered AI copilot, NOVA, to interpret analytical results, answer natural-language questions, and explain industrial insights.
 
-Online Retail Sales Analysis | Excel, Python, SQL, Tableau Public
-December 2025 – January 2026
-- Evaluated 7,000+ retail transactions to assess sales performance and customer behavior.
-- Analyzed data for 2,700+ unique customers across multiple countries.
-- Calculated KPIs including total revenue, order counts, and average order value.
-- Wrote SQL queries to identify monthly trends, top products, and regional performance.
-- Published an interactive Tableau dashboard with multiple analytical views.
+Retail Food Price Analysis and Prediction | Python, Streamlit, SQL, Machine Learning | February 2026 – May 2026
+• Built an end-to-end machine learning pipeline to forecast retail food prices, enabling data-driven pricing analysis.
+• Streamlined the data-cleaning workflow and improved reporting turnaround by automating repetitive validation steps.
 
-Safe Guard Pro | Python, React, Scikit-learn, Joblib, Leaflet, TensorFlow, XG Boost, SHAP                                     
-May 2026     – June 2026   
-•	Developed an AI-based crime prediction system using ML achieving 85% accuracy on 100K+ crime records
-•	Performed data preprocessing and feature engineering using Pandas, NumPy, and Scikit-learn.
-•	Integrated ML model using Joblib and created APIs (/predict, /map-data).
-•	Visualized crime-prone areas using Leaflet maps and Recharts dashboards.
-•	Built a full-stack application using React and Flask with real-time prediction via REST APIs.
-
-INDUSTRIX AI | Python, Machine Learning, LLM (Gemini AI), Scikit-learn, Pandas, NumPy, FastAPI, PostgreSQL
-July 2026 – Present
-•	Developing an AI-powered industrial analytics platform to analyze uploaded datasets and generate data-driven insights into machine health and equipment performance.
-•	Designing Machine Learning workflows for anomaly detection and predictive maintenance to identify unusual sensor patterns and potential equipment failures.
-•	Integrating an LLM-powered AI copilot, NOVA, to interpret analytical results, answer natural-language questions, and explain industrial insights.
-•	Building data-driven Root Cause Analysis (RCA) workflows to investigate potential machine issues and recommend corrective maintenance actions.
-•	GitHub: https://github.com/Anbhuti/INDUSTRIX-AI
+Safe Guard Pro | Python, React, Scikit-learn, Joblib, Leaflet, TensorFlow, XG Boost, SHAP | May 2026 – June 2026
+• Built an AI-powered crime prediction system with 85% accuracy on 100K+ crime records, enabling data-driven crime risk analysis.
+• Developed a React + Flask application with REST APIs to deliver real-time predictions through an intuitive web interface.
 
 Certifications
-- Data Analytics Job Simulation – Deloitte (2025)
-- AI Analyst – IBM (2025)
-- Machine Learning with Python – IBM (2025)
-- Python for Data Science – IBM (2025)
-- NoSQL & DBaaS – IBM (2025)
+• Data Analyst – Deloitte (2025)
+• AI Analyst, Machine Learning with Python, Python for Data Science, NoSQL & DBaaS – IBM (2025)
 
 Education
-Master of Computer Application (Data Science & AI)
-Babu Banarasi Das University, Lucknow | 2024–2026 | 73.4%
+Master of Computer Application (Data Science & AI) | 2024–2026
+Babu Banarasi Das University, Lucknow | Percentage: 73.4%
 
-Bachelor of Computer Application
-Ambalika Institute of Higher Education, Lucknow | 2021–2024 | 71.7%
+Bachelor of Computer Application | 2021–2024
+Ambalika Institute of Higher Education, Lucknow | Percentage: 71.7%

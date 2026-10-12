@@ -7,6 +7,30 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const handleDownloadResume = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+      const response = await fetch('/Anubhuti_Pal.pdf');
+      if (!response.ok) throw new Error('File fetch failed');
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'Anubhuti_Pal.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
+    } catch (err) {
+      const fallbackLink = document.createElement('a');
+      fallbackLink.href = '/Anubhuti_Pal.pdf';
+      fallbackLink.setAttribute('download', 'Anubhuti_Pal.pdf');
+      document.body.appendChild(fallbackLink);
+      fallbackLink.click();
+      document.body.removeChild(fallbackLink);
+    }
+  };
+
   return (
     <>
       <section id="center">
@@ -21,13 +45,24 @@ function App() {
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '16px' }}>
+          <button
+            type="button"
+            className="counter"
+            onClick={() => setCount((count) => count + 1)}
+          >
+            Count is {count}
+          </button>
+          <a
+            href="/Anubhuti_Pal.pdf"
+            download="Anubhuti_Pal.pdf"
+            onClick={handleDownloadResume}
+            className="counter"
+            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
+          >
+            Download Resume
+          </a>
+        </div>
       </section>
 
       <div className="ticks"></div>
